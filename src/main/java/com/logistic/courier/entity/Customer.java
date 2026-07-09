@@ -1,5 +1,9 @@
 package com.logistic.courier.entity;
 
+
+
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,6 +44,7 @@ public class Customer {
 	@Column(name="customer_address")
 	@NotBlank(message = "address is required")
 	private String customerAddress;
+
 	
 
 }

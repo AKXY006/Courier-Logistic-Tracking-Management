@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,19 +25,19 @@ public class Warehouse {
 	private Integer warehouseId;
 	
 	@Column(name="warehouse_name")
-	@NotBlank(message = "warehouse name should be required")
+	@NotBlank(message = "Warehouse name is required")
 	private String warehouseName;
 	
 	@Column(name="warehouse_location")
-	@NotBlank(message = "warehouse location should be required")
+	@NotBlank(message = "warehouse location is required")
 	private String warehouseLocation;
 	
 	@Column(name="capacity")
-	@NotBlank(message = "warehouse capacity should be required")
+	@NotNull(message = "warehouse capacity is required")
 	private Integer capacity;
 	
 	@Column(name="warehouse_phone_number", unique = true, length = 10)
-	@NotBlank(message = "warehouse phone number should be required")
+	@NotBlank(message = "warehouse phone number is required")
 	private String warehousePhoneNumber;
 
 }
