@@ -21,7 +21,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer>{
 	
 	//6) Delete -> DeleteMapping -> deleteById()
 	
-	//7) Get By contact -> GetMapping -> getByCustomerPhoneNumber()
+	//7) Get By contact -> GetMapping -> getByCuvstomerPhoneNumber()
 	Optional<Customer> getByCustomerPhoneNumber(String customerPhoneNumber);
 		
 	//8) Get By Pagination & Sorting 
