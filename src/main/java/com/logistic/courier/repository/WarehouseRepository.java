@@ -1,9 +1,30 @@
 package com.logistic.courier.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.logistic.courier.entity.Warehouse;
 
 public interface WarehouseRepository extends JpaRepository<Warehouse, Integer>{
+	
+
+	//1) Create WareHouse -> PostMapping -> save()
+	
+	//2) Get All WareHouse -> GetMapping -> findAll()
+
+	//3) Get By Id -> GetMapping -> getById()
+	
+	//4) Get By warehouseLocation -> GetMapping -> getByWarehouseLocation()
+	List<Warehouse> getByWarehouseLocation(String warehouseLocation);
+	
+	//5) Get By Capacity -> GetMapping -> getByCapacityGreaterThan()
+	List<Warehouse> getByCapacityGreaterThan(Integer capacity);
+	
+	//6) update  -> PostMapping --> save()
+	
+	//8) Delete WareHouse -> DeleteMapping -> getById()
+	
+	
 
 }
