@@ -13,7 +13,6 @@ import com.logistic.courier.exception.ResourceNotFoundException;
 import com.logistic.courier.repository.PaymentRepository;
 import com.logistic.courier.util.ResponseStructure;
 
-import sun.jvm.hotspot.oops.ReturnTypeEntry;
 
 @Service
 public class PaymentService {
