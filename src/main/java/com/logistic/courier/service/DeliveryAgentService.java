@@ -200,40 +200,7 @@ public class DeliveryAgentService {
     		return new ResponseEntity<>(responseStructure, HttpStatus.OK);
     	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	   
+       
 
 }
