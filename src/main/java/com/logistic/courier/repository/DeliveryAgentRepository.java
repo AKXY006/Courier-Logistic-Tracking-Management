@@ -13,16 +13,16 @@ public interface DeliveryAgentRepository extends JpaRepository<DeliveryAgent, In
 	
 		//2) Get All DeliveryAgent -> GetMapping -> findAll()
 
-		//3) Get By Id -> GetMapping -> getById()
+		//3) Get By Id -> GetMapping -> findById()
 		
 		//4) Get By vehicleNumber -> GetMapping -> getByvehicleNumber()
-		Optional<DeliveryAgent> getByVehicleNumber(String vehicaleNumber);
+		Optional<DeliveryAgent> findByVehicleNumber(String vehicleNumber);
 		
 		//5) Get By phoneNumber -> GetMapping -> getByphoneNumber()
-		Optional<DeliveryAgent> getByPhoneNumber(String phoneNumber);
+		Optional<DeliveryAgent> findByPhoneNumber(String phoneNumber);
 		
 		//6) Get By ratingGreaterThan -> GetMapping -> getByRatingGreaterThan()
-	    List<DeliveryAgent> getByRatingGreaterOptionalThan(String rating);
+	    List<DeliveryAgent> findByRatingGreaterThan(Float rating);
 		
 		//7) Update -> Patch/Put --> saveAll()
 		
