@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.logistic.courier.entity.TrackingHistory;
+import com.logistic.courier.entity.TrackingStatus;
 
 
 public interface TrackingHistoryRepository extends JpaRepository<TrackingHistory, Integer>{
@@ -17,6 +18,6 @@ public interface TrackingHistoryRepository extends JpaRepository<TrackingHistory
     List<TrackingHistory> getByTrackingNumber(String trackingNumber);    
 	
 	//4) Get By TrackingStatus ->GetMapping -> getByTrackingStatus()
-    List<TrackingHistory> getByTrackingStatus(String trackingStatus);
+    List<TrackingHistory> findByTrackingStatus(TrackingStatus trackingStatus);
 
 }
