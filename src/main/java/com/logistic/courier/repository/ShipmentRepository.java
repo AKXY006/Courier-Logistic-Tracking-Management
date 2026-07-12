@@ -43,4 +43,8 @@ public interface ShipmentRepository extends JpaRepository<Shipment, Integer>{
 	   List<Shipment> getByDeliveryDate(String deliveryDate);
 	   
 	   //15) Get By Pagination And Sorting 
+	   
+	   
+	   //EXTRA
+	   Optional<Shipment> existsByCustomerCustomerId(Integer customerId);
 }
