@@ -1,5 +1,6 @@
 package com.logistic.courier.service;
 
+import java.nio.channels.NonReadableChannelException;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.logistic.courier.entity.Payment;
+import com.logistic.courier.entity.PaymentStatus;
 import com.logistic.courier.exception.ResourceNotFoundException;
 import com.logistic.courier.repository.PaymentRepository;
 import com.logistic.courier.util.ResponseStructure;
@@ -52,8 +54,44 @@ public class PaymentService {
 		responseStructure.setData(optional.get());
 		
 		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
-
-		
 	}
+	
+	public ResponseEntity<ResponseStructure<Payment>> updateStatus(Integer paymentId, PaymentStatus paymentStatus){
+		Optional<Payment> optional = paymentRepository.findById(paymentId);
+		if(optional.isEmpty()) {
+			throw new ResourceNotFoundException("id not found");
+		}
+		
+		Payment payment = optional.get();
+		payment.setPaymentStatus(paymentStatus);
+		
+		ResponseStructure<Payment> responseStructure = new ResponseStructure<>();
+		responseStructure.setStatusCode(HttpStatus.OK.value());
+		responseStructure.setMessage("status successfully update");
+		responseStructure.setData(payment);
+		
+		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
+	}
+	
+	public ResponseEntity<ResponseStructure<String>> deleteById(Integer paymentId) {
+
+	    Optional<Payment> optional = paymentRepository.findById(paymentId);
+
+	    if (optional.isEmpty()) {
+	        throw new ResourceNotFoundException("Id not found");
+	    }
+
+	    paymentRepository.deleteById(paymentId);
+
+	    ResponseStructure<String> responseStructure = new ResponseStructure<>();
+
+	    responseStructure.setStatusCode(HttpStatus.OK.value());
+	    responseStructure.setMessage("Payment record successfully deleted with id " + paymentId);
+	    responseStructure.setData("Payment deleted successfully");
+
+	    return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+	}
+	
+	
 
 }
