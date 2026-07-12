@@ -15,7 +15,7 @@ public interface PackageRepository extends JpaRepository<Package,Integer>{
 	//2) Get By Id -> GetMapping -> getById()
 	
 	//3) Get By Type -> GetMapping -> getByType
-	List<Package> getBypackageType(PackageType packageType);
+	List<Package> findByPackageType(PackageType packageType);
 
 	
 }
