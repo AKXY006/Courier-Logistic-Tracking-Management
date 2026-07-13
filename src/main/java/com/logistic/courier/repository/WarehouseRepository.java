@@ -17,10 +17,10 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer>{
 	//3) Get By Id -> GetMapping -> getById()
 	
 	//4) Get By warehouseLocation -> GetMapping -> getByWarehouseLocation()
-	List<Warehouse> getByWarehouseLocation(String warehouseLocation);
+	List<Warehouse> findByWarehouseLocation(String warehouseLocation);
 	
 	//5) Get By Capacity -> GetMapping -> getByCapacityGreaterThan()
-	List<Warehouse> getByCapacityGreaterThan(Integer capacity);
+	List<Warehouse> findByCapacityGreaterThan(Integer capacity);
 	
 	//6) update  -> PostMapping --> save()
 	
