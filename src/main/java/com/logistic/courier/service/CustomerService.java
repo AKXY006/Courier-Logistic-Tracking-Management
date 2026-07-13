@@ -55,7 +55,7 @@ public class CustomerService {
 	}
 	
 	    //2)
-        public ResponseEntity<ResponseStructure<List<Customer>>> getAllCustomer(){
+        public ResponseEntity<ResponseStructure<List<Customer>>> findAllCustomer(){
         	
             List<Customer> customers = customerRepository.findAll();
 
@@ -215,7 +215,8 @@ public class CustomerService {
     	            return res;
     	        }
              }
-        }	  
+
+			        }	  
         
         
 	
