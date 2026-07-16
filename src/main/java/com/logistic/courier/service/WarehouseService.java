@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.logistic.courier.entity.Warehouse;
-import com.logistic.courier.exception.DublicateResourceException;
+import com.logistic.courier.exception.DuplicateResourceException;
 import com.logistic.courier.exception.ResourceNotFoundException;
 import com.logistic.courier.repository.WarehouseRepository;
 import com.logistic.courier.util.ResponseStructure;
@@ -24,7 +24,7 @@ public class WarehouseService {
 		Optional<Warehouse> optional = warehouseRepository.findByWarehousePhoneNumber(warehouse.getWarehousePhoneNumber());
 		
 		if(optional.isPresent()) {
-			throw new DublicateResourceException("Phone NUmber Already In Use");
+			throw new DuplicateResourceException("Phone NUmber Already In Use");
 		}
 		
 		Warehouse warehouse2 = warehouseRepository.save(warehouse);
@@ -60,7 +60,7 @@ public class WarehouseService {
  		Optional<Warehouse> optional = warehouseRepository.findById(warehouseId);
  	
  		if(optional.isPresent()) {
- 			throw new DublicateResourceException("Id not found");
+ 			throw new DuplicateResourceException("Id not found");
  		}
  		
  		ResponseStructure<Warehouse> responseStructure = new ResponseStructure<>();
@@ -115,7 +115,7 @@ public class WarehouseService {
   		Optional<Warehouse> optional = warehouseRepository.findById(warehouseId);
   	
   		if(optional.isPresent()) {
-  			throw new DublicateResourceException("Id not found");
+  			throw new DuplicateResourceException("Id not found");
   		}
   		
   		warehouseRepository.deleteById(warehouseId);

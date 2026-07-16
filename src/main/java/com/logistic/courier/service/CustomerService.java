@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.logistic.courier.entity.Customer;
-import com.logistic.courier.exception.DublicateResourceException;
+import com.logistic.courier.exception.DuplicateResourceException;
 import com.logistic.courier.exception.InvalidInputException;
 import com.logistic.courier.exception.ResourceNotFoundException;
 import com.logistic.courier.repository.CustomerRepository;
@@ -33,13 +33,13 @@ public class CustomerService {
 		Optional<Customer> optional = customerRepository.findByCustomerEmail(customer.getCustomerEmail());
 		
 		if(optional.isPresent()) {
-			throw new DublicateResourceException("Email Already In Use");
+			throw new DuplicateResourceException("Email Already In Use");
 		}
 		
 		Optional<Customer> opt= customerRepository.findByCustomerPhoneNumber(customer.getCustomerPhoneNumber());
 		
 		if(opt.isPresent()) {
-			throw new DublicateResourceException("Mobile Number Already In Use");
+			throw new DuplicateResourceException("Mobile Number Already In Use");
 		}
 		
 		Customer cus = customerRepository.save(customer);
@@ -201,14 +201,14 @@ public class CustomerService {
      		
      	}
 
-         //8
+         //8)
              public ResponseStructure<Page<Customer>> getPageByPagination(int pageNumber, int pageSize) {
-    		 Page<Customer> page = customerRepository.findAll(PageRequest.of(pageNumber, pageSize));
+    		    Page<Customer> page = customerRepository.findAll(PageRequest.of(pageNumber, pageSize));
     	        ResponseStructure<Page<Customer>> res = new ResponseStructure<>();
 
     	        if (page.isEmpty()) {
     	            throw new ResourceNotFoundException("Data Not Available To Be Display");
-    	        } else {
+    	        }else {
     	            res.setStatusCode(HttpStatus.OK.value());
     	            res.setMessage("Data Retrieved Successfully");
     	            res.setData(page);
@@ -216,7 +216,7 @@ public class CustomerService {
     	        }
              }
 
-			        }	  
+	}	  
         
         
 	

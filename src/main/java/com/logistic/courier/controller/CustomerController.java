@@ -44,12 +44,18 @@ public class CustomerController {
 		return customerService.findByEmail(email);
 	}
 	
+//	@PatchMapping
+//	public ResponseEntity<ResponseStructure<Customer>> updateCustomer(@RequestBody Customer customer){
+//		return customerService.
+//	}
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ResponseStructure<String>>  deleteById(@PathVariable Integer id){
 		return customerService.deletById(id);
 	}
 	
-
-
+	
+	
+	
 	
 }

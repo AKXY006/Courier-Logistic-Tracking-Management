@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.logistic.courier.entity.Customer;
 import com.logistic.courier.entity.DeliveryAgent;
-import com.logistic.courier.exception.DublicateResourceException;
+import com.logistic.courier.exception.DuplicateResourceException;
 import com.logistic.courier.exception.InvalidInputException;
 import com.logistic.courier.exception.ResourceNotFoundException;
 import com.logistic.courier.repository.DeliveryAgentRepository;
@@ -29,13 +29,13 @@ public class DeliveryAgentService {
 		Optional<DeliveryAgent> optional = deliveryAgentRepository.findByPhoneNumber(deliveryAgent.getPhoneNumber());
 		
 		if(optional.isPresent()) {
-			throw new DublicateResourceException("Phone Number is Already Exist");
+			throw new DuplicateResourceException("Phone Number is Already Exist");
 		}
 		
        Optional<DeliveryAgent> opt = deliveryAgentRepository.findByVehicleNumber(deliveryAgent.getVehicleNumber());
 		
 		if(opt.isPresent()) {
-			throw new DublicateResourceException("Vehicle Number is Already Exist");
+			throw new DuplicateResourceException("Vehicle Number is Already Exist");
 		}
 		
 		DeliveryAgent dA = deliveryAgentRepository.save(deliveryAgent);

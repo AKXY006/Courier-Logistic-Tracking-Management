@@ -1,10 +1,16 @@
 package com.logistic.courier.entity;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -47,5 +53,9 @@ public class DeliveryAgent {
     @DecimalMin(value = "0.0", message = "Rating must be at least 0")
     @DecimalMax(value = "5.0", message = "Rating cannot exceed 5")
     private Float rating;
+    
+    @OneToMany(mappedBy = "deliveryAgent", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Shipment> shipments;
 
 }

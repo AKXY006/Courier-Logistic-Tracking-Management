@@ -1,11 +1,17 @@
 package com.logistic.courier.entity;
 
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -42,6 +48,7 @@ public class Customer {
 	@NotBlank(message = "address is required")
 	private String customerAddress;
 
-	
-
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<Shipment> shipments;
 }
