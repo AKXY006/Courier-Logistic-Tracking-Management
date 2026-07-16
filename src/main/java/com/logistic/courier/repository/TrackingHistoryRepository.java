@@ -15,9 +15,9 @@ public interface TrackingHistoryRepository extends JpaRepository<TrackingHistory
 	//2) Get By Id -> GetMapping -> getById()
 	
 	//3) Get By TrackingNumber ->GetMapping -> getByTrackingNumber()
-    List<TrackingHistory> getByTrackingNumber(String trackingNumber);    
+    //List<TrackingHistory> findByTrackingNumber(String trackingNumber);    
 	
 	//4) Get By TrackingStatus ->GetMapping -> getByTrackingStatus()
-    List<TrackingHistory> findByTrackingStatus(TrackingStatus trackingStatus);
+    //List<TrackingHistory> findByTrackingStatus(TrackingStatus trackingStatus);
 
 }

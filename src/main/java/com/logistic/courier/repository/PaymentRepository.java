@@ -13,7 +13,7 @@ public interface PaymentRepository extends JpaRepository<Payment,Integer>{
 		//2) Get By Id -> GetMapping -> getById()
 	
 	    //3) update status -> PatchMapping -> updateByPaymentStatus()
-	    Optional<Payment> updateByPaymentStatus(String paymentstatus);
+//	    Optional<Payment> updateByPaymentStatus(String paymentstatus);
 	    
 	    //4) Delete by Id ->DeleteMapping -> DeleteById()
 }

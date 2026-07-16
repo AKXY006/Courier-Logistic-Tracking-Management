@@ -18,10 +18,10 @@ public interface ShipmentRepository extends JpaRepository<Shipment, Integer>{
 		//3) Get By Id -> GetMapping -> getById()
 	
 	   //4) Get By TrackingNumber -> GetMapping -> getByTrackingNumber()
-	   Optional<Shipment> getByTrackingNumber(String trackingNumber);
+	   //Optional<Shipment> findByTrackingNumber(String trackingNumber);
 	   
 	   //5) update status -> PatchMapping --> updateBystatus()
-	   Optional<Shipment> updateBystatus(ShipmentStatus status);
+	  
 	   
 	   //6) Assigned By Deliver Agent --> GetMapping -> GetById()
 	   //Not Sure 
@@ -37,14 +37,14 @@ public interface ShipmentRepository extends JpaRepository<Shipment, Integer>{
 	   //11) confuse
 	   
 	   //13) Get By Source And Destination -> GetMapping -> getBySourceAndDestination()
-	   List<Shipment> getBySourceAndDestination(String source, String destination);
+	   //List<Shipment> findBySourceAndDestination(String source, String destination);
 	   
 	   //14) Get By deliveryDate -> GetMapping -> getByDeliveryDate()
-	   List<Shipment> getByDeliveryDate(String deliveryDate);
+	   //List<Shipment> findByDeliveryDate(String deliveryDate);
 	   
 	   //15) Get By Pagination And Sorting 
 	   
 	   
 	   //EXTRA
-	   Optional<Shipment> existsByCustomerCustomerId(Integer customerId);
+//	   Optional<Shipment> existsByCustomerCustomerId(Integer customerId);
 }
