@@ -38,6 +38,10 @@ public class CustomerService {
 			throw new DuplicateResourceException("Email Already In Use");
 		}
 		
+		if (customer.getCustomerPhoneNumber().length() != 10) {
+		    throw new InvalidInputException("Mobile number must be exactly 10 digits");
+		}
+		
 		Optional<Customer> opt= customerRepository.findByCustomerPhoneNumber(customer.getCustomerPhoneNumber());
 		
 		if(opt.isPresent()) {
@@ -159,31 +163,31 @@ public class CustomerService {
     	           return new ResponseEntity<>(responseStructure,HttpStatus.OK);
         }
         
-        //6)
-         public ResponseEntity<ResponseStructure<String>> deletById(Integer customerId){
-        	 
-
-        		Optional<Customer> optional = customerRepository.findById(customerId);
-
-        		if(optional.isEmpty()) {
-        			throw new ResourceNotFoundException("Invalid Customer Id : " + customerId);
-        		}
-
-//        		if(shipmentRepository.existsByCustomerCustomerId(customerId)) {
-//        			throw new ActiveStatusException("Customer cannot be deleted because orders exist.");
+//        //6)
+//         public ResponseEntity<ResponseStructure<String>> deletById(Integer customerId){
+//        	 
+//
+//        		Optional<Customer> optional = customerRepository.findById(customerId);
+//
+//        		if(optional.isEmpty()) {
+//        			throw new ResourceNotFoundException("Invalid Customer Id : " + customerId);
 //        		}
-        		
-        		customerRepository.deleteById(customerId);
-        	 ResponseStructure<String> response = new ResponseStructure<>();
-
-             response.setStatusCode(HttpStatus.OK.value());
-             response.setMessage("Customer Record Deleted Successfully");
-             response.setData("Success");
-
-             return ResponseEntity.ok(response);
-        	 
-        	 
-         }
+//
+//       		if(shipmentRepository.existsByCustomerCustomerId(customerId)) {
+//        			throw new ActiveStatusException("Customer cannot be deleted because orders exist.");
+//     		}
+//        		
+//        		customerRepository.deleteById(customerId);
+//        	 ResponseStructure<String> response = new ResponseStructure<>();
+//
+//             response.setStatusCode(HttpStatus.OK.value());
+//             response.setMessage("Customer Record Deleted Successfully");
+//             response.setData("Success");
+//
+//             return ResponseEntity.ok(response);
+//        	 
+//        	 
+//         }
         
          
          //7)
