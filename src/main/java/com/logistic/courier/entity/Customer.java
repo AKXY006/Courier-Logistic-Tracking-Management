@@ -49,6 +49,6 @@ public class Customer {
 	private String customerAddress;
 
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-	@JsonManagedReference
+	@JsonManagedReference("customer-shipment")
 	private List<Shipment> shipments;
 }

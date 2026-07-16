@@ -55,7 +55,7 @@ public class DeliveryAgent {
     private Float rating;
     
     @OneToMany(mappedBy = "deliveryAgent", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference("agent-shipment")
     private List<Shipment> shipments;
 
 }

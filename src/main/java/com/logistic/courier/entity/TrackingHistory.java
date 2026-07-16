@@ -52,9 +52,8 @@ public class TrackingHistory {
     private LocalDateTime updatedDateTime;
     
     @ManyToOne
-    @JoinColumn(name="shipment_id")
-    @JsonBackReference
+    @JoinColumn(name = "shipment_id")
+    @JsonBackReference("shipment-tracking")
     private Shipment shipment;
-    
-    
+   
 }

@@ -44,7 +44,6 @@ public class Package {
     
     @OneToOne
     @JoinColumn(name = "shipment_id")
-    @JsonBackReference
+    @JsonBackReference("shipment-package")
     private Shipment shipment;
-    
 }

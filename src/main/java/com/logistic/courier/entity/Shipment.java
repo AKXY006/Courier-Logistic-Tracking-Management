@@ -71,29 +71,28 @@ public class Shipment {
 	
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
-	@JsonBackReference
+	@JsonBackReference("customer-shipment")
 	private Customer customer;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "warehouse_id")
-	@JsonBackReference
+	@JsonBackReference("warehouse-shipment")
 	private Warehouse warehouse;
-	
-	@ManyToOne
-	@JoinColumn(name = "deliveryAgent_id")
-	@JsonBackReference
-	private DeliveryAgent deliveryAgent;
-	
-	@OneToOne(mappedBy = "shipment", cascade=CascadeType.ALL)
-	@JsonManagedReference
-	private Payment payment;
-	
-	@OneToOne(mappedBy = "shipment")
-	@JsonManagedReference
-	private Package package1;
-	
-	@OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL)
-	@JsonManagedReference
-	private List<TrackingHistory> trackingHistory;
 
+	@ManyToOne
+	@JoinColumn(name = "delivery_id")
+	@JsonBackReference("agent-shipment")
+	private DeliveryAgent deliveryAgent;
+
+	@OneToOne(mappedBy = "shipment", cascade = CascadeType.ALL)
+	@JsonManagedReference("shipment-payment")
+	private Payment payment;
+
+	@OneToOne(mappedBy = "shipment", cascade = CascadeType.ALL)
+	@JsonManagedReference("shipment-package")
+	private Package package1;
+
+	@OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL)
+	@JsonManagedReference("shipment-tracking")
+	private List<TrackingHistory> trackingHistory;
 }

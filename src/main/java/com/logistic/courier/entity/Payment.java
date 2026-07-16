@@ -53,6 +53,6 @@ public class Payment {
     
     @OneToOne
     @JoinColumn(name = "shipment_id")
-    @JsonBackReference
+    @JsonBackReference("shipment-payment")
     private Shipment shipment;
 }
