@@ -29,7 +29,9 @@ public class CustomerService {
 	private ShipmentRepository shipmentRepository;
 	
 	//1)
-	public ResponseEntity<ResponseStructure<Customer>> saveCustomer(Customer customer){
+	    public ResponseEntity<ResponseStructure<List<Customer>>> saveCustomer(List<Customer> customers){
+	    	
+	    for(Customer customer : customers) {
 		Optional<Customer> optional = customerRepository.findByCustomerEmail(customer.getCustomerEmail());
 		
 		if(optional.isPresent()) {
@@ -40,11 +42,13 @@ public class CustomerService {
 		
 		if(opt.isPresent()) {
 			throw new DuplicateResourceException("Mobile Number Already In Use");
-		}
+		 }
 		
-		Customer cus = customerRepository.save(customer);
+	    }
 		
-		ResponseStructure<Customer> responseStructure = new ResponseStructure<>();
+		List<Customer> cus = customerRepository.saveAll(customers);
+		
+		ResponseStructure<List<Customer>> responseStructure = new ResponseStructure<>();
 		
 		responseStructure.setStatusCode(HttpStatus.CREATED.value());
 		responseStructure.setMessage("Customer Saved Successfully");
