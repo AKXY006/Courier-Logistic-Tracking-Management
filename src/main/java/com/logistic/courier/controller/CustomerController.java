@@ -3,6 +3,8 @@ package com.logistic.courier.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,18 +45,20 @@ public class CustomerController {
 		return customerService.findByEmail(email);
 	}
 	
-//	@PatchMapping
-//	public ResponseEntity<ResponseStructure<Customer>> updateCustomer(@RequestBody Customer customer){
-//		return customerService.
-//	}
-	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ResponseStructure<String>>  deleteById(@PathVariable Integer id){
 		return customerService.deletById(id);
 	}
 	
+	@GetMapping("/contactnumber/{customerPhoneNumber}")
+	public ResponseEntity<ResponseStructure<Customer>>  findByCustomerContactNumber(@PathVariable String customerPhoneNumber){
+		return customerService.findByCustomerPhoneNumber(customerPhoneNumber);
+	}
 	
-	
+	@GetMapping("/pagination/{pageNumber}/{pageSize}")
+	public ResponseEntity<ResponseStructure<Page<Customer>>> getPageByPagination(@PathVariable int pageNumber,@PathVariable int pageSize) {
+	return customerService.getPageByPagination(pageNumber, pageSize);
+	}
 	
 	
 }

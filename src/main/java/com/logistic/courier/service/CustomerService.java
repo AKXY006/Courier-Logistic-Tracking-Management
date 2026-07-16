@@ -172,6 +172,8 @@ public class CustomerService {
 //        		if(shipmentRepository.existsByCustomerCustomerId(customerId)) {
 //        			throw new ActiveStatusException("Customer cannot be deleted because orders exist.");
 //        		}
+        		
+        		customerRepository.deleteById(customerId);
         	 ResponseStructure<String> response = new ResponseStructure<>();
 
              response.setStatusCode(HttpStatus.OK.value());
@@ -186,7 +188,7 @@ public class CustomerService {
          
          //7)
          
-         public ResponseEntity<ResponseStructure<Customer>> findByCustomerContactNumber(String customerPhonenumber){
+         public ResponseEntity<ResponseStructure<Customer>> findByCustomerPhoneNumber(String customerPhonenumber){
      		Optional<Customer> optional = customerRepository.findByCustomerPhoneNumber(customerPhonenumber);
      		
      		if(optional.isEmpty()) {
@@ -206,25 +208,27 @@ public class CustomerService {
      	}
 
          //8)
-             public ResponseStructure<Page<Customer>> getPageByPagination(int pageNumber, int pageSize) {
-    		    Page<Customer> page = customerRepository.findAll(PageRequest.of(pageNumber, pageSize));
-    	        ResponseStructure<Page<Customer>> res = new ResponseStructure<>();
+         public ResponseEntity<ResponseStructure<Page<Customer>>> getPageByPagination(int pageNumber, int pageSize) {
 
-    	        if (page.isEmpty()) {
-    	            throw new ResourceNotFoundException("Data Not Available To Be Display");
-    	        }else {
-    	            res.setStatusCode(HttpStatus.OK.value());
-    	            res.setMessage("Data Retrieved Successfully");
-    	            res.setData(page);
-    	            return res;
-    	        }
-             }
+        	    if (pageNumber < 1) {
+        	        throw new InvalidInputException("Page number must be greater than or equal to 1");
+        	    }
 
-	}	  
+        	    Page<Customer> page = customerRepository.findAll(PageRequest.of(pageNumber - 1, pageSize));
+
+        	    if (page.isEmpty()) {
+        	        throw new ResourceNotFoundException("Data Not Available To Be Display");
+        	    }
+
+        	    ResponseStructure<Page<Customer>> responseStructure = new ResponseStructure<>();
+
+        	    responseStructure.setStatusCode(HttpStatus.OK.value());
+        	    responseStructure.setMessage("Data Retrieved Successfully");
+        	    responseStructure.setData(page);
+
+        	    return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+        	}
+}
+
+                
         
-        
-	
-	
-	
-
-
