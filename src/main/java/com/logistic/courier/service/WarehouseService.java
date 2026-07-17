@@ -46,7 +46,7 @@ public class WarehouseService {
 		List<Warehouse> warehouses= warehouseRepository.findAll();
 		
 		if(warehouses.isEmpty()) {
-			throw new ResourceNotFoundException("No Warehouse found");
+			throw new ResourceNotFoundException("Warehouses not found");
 		}
 			
 		ResponseStructure<List<Warehouse>> responseStructure = new ResponseStructure<>();
@@ -56,77 +56,77 @@ public class WarehouseService {
 		responseStructure.setData(warehouses);
 		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
 	}
-	
-     
-     public ResponseEntity<ResponseStructure<Warehouse>> findById(Integer warehouseId){
- 		Optional<Warehouse> optional = warehouseRepository.findById(warehouseId);
- 	
- 		if(optional.isPresent()) {
- 			throw new DuplicateResourceException("Id not found");
- 		}
- 		
- 		ResponseStructure<Warehouse> responseStructure = new ResponseStructure<>();
- 		
- 		responseStructure.setStatusCode(HttpStatus.OK.value());
- 		responseStructure.setMessage("Id found Successfully");
- 		responseStructure.setData(optional.get());
- 		
- 		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
- 		
- 	}
-     
-     
-     
-     public ResponseEntity<ResponseStructure<List<Warehouse>>> findByLocationEntity(String warehouseLocation){
-  		List<Warehouse> optional = warehouseRepository.findByWarehouseLocation(warehouseLocation);
-  	
-  		if(optional.isEmpty()) {
-  			throw new ResourceNotFoundException("Location Not found");
-  		}
-  		
-  		ResponseStructure<List<Warehouse>> responseStructure = new ResponseStructure<>();
-  		
-  		responseStructure.setStatusCode(HttpStatus.OK.value());
-  		responseStructure.setMessage("Id found Successfully");
-  		responseStructure.setData(optional);
-  		
-  		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
-  		
-  	}
-     
-     
-     public ResponseEntity<ResponseStructure<List<Warehouse>>> findByCapacityGreaterThan(Integer capacity){
-   		List<Warehouse> optional = warehouseRepository.findByCapacityGreaterThan(capacity);
-   	
-   		if(optional.isEmpty()) {
-   			throw new ResourceNotFoundException("No warehouse found with capacity greaterthan "+capacity);
-   		}
-   		
-   		ResponseStructure<List<Warehouse>> responseStructure = new ResponseStructure<>();
-   		
-   		responseStructure.setStatusCode(HttpStatus.OK.value());
-   		responseStructure.setMessage("warehouse found with capacity greaterthan "+capacity);
-   		responseStructure.setData(optional);
-   		
-   		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
-   		
-   	}
-     
-     
-     public ResponseEntity<ResponseStructure<String>> deleteById(Integer warehouseId){
-  		Optional<Warehouse> optional = warehouseRepository.findById(warehouseId);
-  	
-  		if(optional.isPresent()) {
-  			throw new DuplicateResourceException("Id not found");
-  		}
-  		
-  		warehouseRepository.deleteById(warehouseId);
-  		ResponseStructure<String> responseStructure = new ResponseStructure<>();
-  		
-  		responseStructure.setStatusCode(HttpStatus.OK.value());
-  		responseStructure.setMessage("Id delete Successfully");
-  		responseStructure.setData("Success");
-  		
-  		return new ResponseEntity<>(responseStructure,HttpStatus.OK);	
-  	}
+//	
+//     
+//     public ResponseEntity<ResponseStructure<Warehouse>> findById(Integer warehouseId){
+// 		Optional<Warehouse> optional = warehouseRepository.findById(warehouseId);
+// 	
+// 		if(optional.isPresent()) {
+// 			throw new DuplicateResourceException("Id not found");
+// 		}
+// 		
+// 		ResponseStructure<Warehouse> responseStructure = new ResponseStructure<>();
+// 		
+// 		responseStructure.setStatusCode(HttpStatus.OK.value());
+// 		responseStructure.setMessage("Id found Successfully");
+// 		responseStructure.setData(optional.get());
+// 		
+// 		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
+// 		
+// 	}
+//     
+//     
+//     
+//     public ResponseEntity<ResponseStructure<List<Warehouse>>> findByLocationEntity(String warehouseLocation){
+//  		List<Warehouse> optional = warehouseRepository.findByWarehouseLocation(warehouseLocation);
+//  	
+//  		if(optional.isEmpty()) {
+//  			throw new ResourceNotFoundException("Location Not found");
+//  		}
+//  		
+//  		ResponseStructure<List<Warehouse>> responseStructure = new ResponseStructure<>();
+//  		
+//  		responseStructure.setStatusCode(HttpStatus.OK.value());
+//  		responseStructure.setMessage("Id found Successfully");
+//  		responseStructure.setData(optional);
+//  		
+//  		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
+//  		
+//  	}
+//     
+//     
+//     public ResponseEntity<ResponseStructure<List<Warehouse>>> findByCapacityGreaterThan(Integer capacity){
+//   		List<Warehouse> optional = warehouseRepository.findByCapacityGreaterThan(capacity);
+//   	
+//   		if(optional.isEmpty()) {
+//   			throw new ResourceNotFoundException("No warehouse found with capacity greaterthan "+capacity);
+//   		}
+//   		
+//   		ResponseStructure<List<Warehouse>> responseStructure = new ResponseStructure<>();
+//   		
+//   		responseStructure.setStatusCode(HttpStatus.OK.value());
+//   		responseStructure.setMessage("warehouse found with capacity greaterthan "+capacity);
+//   		responseStructure.setData(optional);
+//   		
+//   		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
+//   		
+//   	}
+//     
+//     
+//     public ResponseEntity<ResponseStructure<String>> deleteById(Integer warehouseId){
+//  		Optional<Warehouse> optional = warehouseRepository.findById(warehouseId);
+//  	
+//  		if(optional.isPresent()) {
+//  			throw new DuplicateResourceException("Id not found");
+//  		}
+//  		
+//  		warehouseRepository.deleteById(warehouseId);
+//  		ResponseStructure<String> responseStructure = new ResponseStructure<>();
+//  		
+//  		responseStructure.setStatusCode(HttpStatus.OK.value());
+//  		responseStructure.setMessage("Id delete Successfully");
+//  		responseStructure.setData("Success");
+//  		
+//  		return new ResponseEntity<>(responseStructure,HttpStatus.OK);	
+//  	}
 }

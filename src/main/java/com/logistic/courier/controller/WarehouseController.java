@@ -3,7 +3,8 @@ package com.logistic.courier.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,8 @@ import com.logistic.courier.entity.Warehouse;
 import com.logistic.courier.service.WarehouseService;
 import com.logistic.courier.util.ResponseStructure;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/warehouse")
 public class WarehouseController {
@@ -21,8 +24,13 @@ public class WarehouseController {
 	private WarehouseService warehouseService;
 	
 	@PostMapping
-	public RequestEntity<ResponseStructure<List<Warehouse>>> saveAll(@RequestBody List<Warehouse> warehouses){
-		return WarehouseService.saveWarehouses(warehouses);
+	public ResponseEntity<ResponseStructure<List<Warehouse>>> saveAll(@RequestBody @Valid List<Warehouse> warehouses){
+		return warehouseService.saveWarehouses(warehouses);
+	}
+	
+	@GetMapping
+	public ResponseEntity<ResponseStructure<List<Warehouse>>> findAllWarehouse(){
+		return warehouseService.findAllWarehouse();
 	}
 
 }
