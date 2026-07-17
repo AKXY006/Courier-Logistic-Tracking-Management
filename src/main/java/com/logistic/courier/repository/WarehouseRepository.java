@@ -9,6 +9,8 @@ import com.logistic.courier.entity.Warehouse;
 
 public interface WarehouseRepository extends JpaRepository<Warehouse, Integer>{
 	
+	Optional<Warehouse> findByWarehousePhoneNumber(String warehousePhoneNumber);
+	
 
 	//1) Create WareHouse -> PostMapping -> save()
 	
@@ -27,7 +29,7 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer>{
 	//8) Delete WareHouse -> DeleteMapping -> getById()
 	
 	
-	//Optional<Warehouse> findByWarehousePhoneNumber(String warehousePhoneNumber);
+	
 	
 
 }

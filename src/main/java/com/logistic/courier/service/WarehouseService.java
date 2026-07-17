@@ -20,20 +20,22 @@ public class WarehouseService {
 	@Autowired
 	private WarehouseRepository warehouseRepository;
 	
-	public ResponseEntity<ResponseStructure<Warehouse>> saveWarehouse(Warehouse warehouse){
+	public ResponseEntity<ResponseStructure<List<Warehouse>>> saveWarehouses(List<Warehouse> warehouses){
+		
+		for(Warehouse warehouse: warehouses) {
 		Optional<Warehouse> optional = warehouseRepository.findByWarehousePhoneNumber(warehouse.getWarehousePhoneNumber());
 		
 		if(optional.isPresent()) {
 			throw new DuplicateResourceException("Phone NUmber Already In Use");
 		}
+		}
+		List<Warehouse> savedWarehouses = warehouseRepository.saveAll(warehouses);
 		
-		Warehouse warehouse2 = warehouseRepository.save(warehouse);
-		
-		ResponseStructure<Warehouse> responseStructure = new ResponseStructure<>();
+		ResponseStructure<List<Warehouse>> responseStructure = new ResponseStructure<>();
 		
 		responseStructure.setStatusCode(HttpStatus.OK.value());
 		responseStructure.setMessage("Warehouse Saved Successfully");
-		responseStructure.setData(warehouse2);
+		responseStructure.setData( savedWarehouses);
 		
 		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
 		
