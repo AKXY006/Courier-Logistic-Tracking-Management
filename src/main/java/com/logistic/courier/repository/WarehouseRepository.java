@@ -10,26 +10,9 @@ import com.logistic.courier.entity.Warehouse;
 public interface WarehouseRepository extends JpaRepository<Warehouse, Integer>{
 	
 	Optional<Warehouse> findByWarehousePhoneNumber(String warehousePhoneNumber);
-	
 
-	//1) Create WareHouse -> PostMapping -> save()
-	
-	//2) Get All WareHouse -> GetMapping -> findAll()
+	List<Warehouse> findByWarehouseLocation(String warehouseLocation);
 
-	//3) Get By Id -> GetMapping -> getById()
-	
-	//4) Get By warehouseLocation -> GetMapping -> getByWarehouseLocation()
-	//List<Warehouse> findByWarehouseLocation(String warehouseLocation);
-	
-	//5) Get By Capacity -> GetMapping -> getByCapacityGreaterThan()
-	//List<Warehouse> findByCapacityGreaterThan(Integer capacity);
-	
-	//6) update  -> PostMapping --> save()
-	
-	//8) Delete WareHouse -> DeleteMapping -> getById()
-	
-	
-	
-	
+	List<Warehouse> findByCapacityGreaterThan(Integer capacity);
 
 }
