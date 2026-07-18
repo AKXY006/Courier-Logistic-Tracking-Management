@@ -1,4 +1,4 @@
-package com.logistic.courier.entity;
+gpackage com.logistic.courier.entity;
 
 import java.time.LocalDateTime;
 
