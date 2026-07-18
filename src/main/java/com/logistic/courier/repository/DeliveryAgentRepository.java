@@ -9,10 +9,10 @@ import com.logistic.courier.entity.DeliveryAgent;
 
 public interface DeliveryAgentRepository extends JpaRepository<DeliveryAgent, Integer>{
 	
-//	  	Optional<DeliveryAgent> findByVehicleNumber(String vehicleNumber);
-//	
-//		Optional<DeliveryAgent> findByPhoneNumber(String phoneNumber);
-//
-//	    List<DeliveryAgent> findByRatingGreaterThan(Float rating);
+	  	Optional<DeliveryAgent> findByVehicleNumber(String vehicleNumber);
+	
+		Optional<DeliveryAgent> findByPhoneNumber(String phoneNumber);
+
+	    List<DeliveryAgent> findByRatingGreaterThan(Float rating);
 		
 }

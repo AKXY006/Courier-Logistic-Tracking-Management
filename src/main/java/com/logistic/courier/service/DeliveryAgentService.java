@@ -23,9 +23,9 @@ public class DeliveryAgentService {
 	@Autowired
 	private DeliveryAgentRepository deliveryAgentRepository;
 	
-	//1)
-	public ResponseEntity<ResponseStructure<DeliveryAgent>> saveDeliveryAgent(DeliveryAgent deliveryAgent){
+	public ResponseEntity<ResponseStructure<List<DeliveryAgent>>> saveDeliveryAgent(List<DeliveryAgent> deliveryAgents){
 		
+		for(DeliveryAgent deliveryAgent: deliveryAgents) {
 		Optional<DeliveryAgent> optional = deliveryAgentRepository.findByPhoneNumber(deliveryAgent.getPhoneNumber());
 		
 		if(optional.isPresent()) {
@@ -38,18 +38,21 @@ public class DeliveryAgentService {
 			throw new DuplicateResourceException("Vehicle Number is Already Exist");
 		}
 		
-		DeliveryAgent dA = deliveryAgentRepository.save(deliveryAgent);
+		}
 		
-		ResponseStructure<DeliveryAgent> responseStructure = new ResponseStructure<>();
+		List<DeliveryAgent> saveDeliveryAgents = deliveryAgentRepository.saveAll(deliveryAgents);
+		
+		ResponseStructure<List<DeliveryAgent>> responseStructure = new ResponseStructure<>();
 		
 		responseStructure.setStatusCode(HttpStatus.CREATED.value());
 		responseStructure.setMessage("Save DeliverAgent Successfully");
-		responseStructure.setData(dA);
+		responseStructure.setData(saveDeliveryAgents);
 		
 		return new ResponseEntity<>(responseStructure,HttpStatus.CREATED);
 	}
+
 	
-	//2)
+	
 	public ResponseEntity<ResponseStructure<List<DeliveryAgent>>> findAllDeliveryAgent(){
 		
 		List<DeliveryAgent> dAgents= deliveryAgentRepository.findAll();
@@ -68,7 +71,7 @@ public class DeliveryAgentService {
 		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
 	}
 	
-	public ResponseEntity<ResponseStructure<DeliveryAgent>> findDeliveryAgentById(Integer deliveryId){
+	public ResponseEntity<ResponseStructure<DeliveryAgent>> findById(Integer deliveryId){
 		
 		Optional<DeliveryAgent> optional= deliveryAgentRepository.findById(deliveryId);
 		
@@ -79,7 +82,7 @@ public class DeliveryAgentService {
 		ResponseStructure<DeliveryAgent> responseStructure = new ResponseStructure<>();
 		
 		responseStructure.setStatusCode(HttpStatus.OK.value());
-		responseStructure.setMessage("All delivery Agent");
+		responseStructure.setMessage("delivery Agent found successfully");
 		responseStructure.setData(optional.get());
 		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
 	}
@@ -134,72 +137,72 @@ public class DeliveryAgentService {
     	}
        
        
-       public ResponseEntity<ResponseStructure<DeliveryAgent>> updateDeliveryAgent(Integer deliveryId, Map<String, Object> updates){
-    		Optional<DeliveryAgent> optional = deliveryAgentRepository.findById(deliveryId);
-
-    		if(optional.isEmpty()) {
-    			throw new ResourceNotFoundException("Invalid Delivery Agent Id " + deliveryId);
-    		}
-
-    		DeliveryAgent deliveryAgent = optional.get();
-    		for(Map.Entry<String, Object> entry : updates.entrySet()) {
-
-    			String key = entry.getKey();
-    			Object value = entry.getValue();
-
-    			switch(key) {
-
-    			case "name":deliveryAgent.setName((String) value);
-    				break;
-
-    			case "phoneNumber":deliveryAgent.setPhoneNumber((String) value);
-    				break;
-
-    			case "vehicleNumber":deliveryAgent.setVehicleNumber((String) value);
-    				break;
-
-    			case "availabilityStatus":deliveryAgent.setAvailabilityStatus((Boolean) value);
-    				break;
-
-    			case "rating":deliveryAgent.setRating(Float.parseFloat(value.toString()));
-    				break;
-
-    			default:
-    				throw new InvalidInputException("Invalid Field : " + key);
-    			}
-    		}
-
-    		DeliveryAgent agent = deliveryAgentRepository.save(deliveryAgent);
-
-    		ResponseStructure<DeliveryAgent> responseStructure = new ResponseStructure<>();
-
-    		responseStructure.setStatusCode(HttpStatus.OK.value());
-    		responseStructure.setMessage("Delivery Agent Updated Successfully");
-    		responseStructure.setData(agent);
-
-    		return new ResponseEntity<>(responseStructure, HttpStatus.OK);
-    	}
-       
-	
-	
-       public ResponseEntity<ResponseStructure<String>> deleteById(Integer deliveryId){
-    		  Optional<DeliveryAgent> optional = deliveryAgentRepository.findById(deliveryId);
-
-    		 if(optional.isEmpty()) {
-    			throw new ResourceNotFoundException("Invalid Delivery Agent Id " + deliveryId);
-    		}
-
-    	      deliveryAgentRepository.deleteById(deliveryId);
-
-    		  ResponseStructure<String> responseStructure = new ResponseStructure<>();
-
-    		 responseStructure.setStatusCode(HttpStatus.OK.value());
-    		 responseStructure.setMessage("Delivery Agent Deleted Successfully");
-    		 responseStructure.setData("Success");
-
-    		return new ResponseEntity<>(responseStructure, HttpStatus.OK);
-    	}
-	
+//       public ResponseEntity<ResponseStructure<DeliveryAgent>> updateDeliveryAgent(Integer deliveryId, Map<String, Object> updates){
+//    		Optional<DeliveryAgent> optional = deliveryAgentRepository.findById(deliveryId);
+//
+//    		if(optional.isEmpty()) {
+//    			throw new ResourceNotFoundException("Invalid Delivery Agent Id " + deliveryId);
+//    		}
+//
+//    		DeliveryAgent deliveryAgent = optional.get();
+//    		for(Map.Entry<String, Object> entry : updates.entrySet()) {
+//
+//    			String key = entry.getKey();
+//    			Object value = entry.getValue();
+//
+//    			switch(key) {
+//
+//    			case "name":deliveryAgent.setName((String) value);
+//    				break;
+//
+//    			case "phoneNumber":deliveryAgent.setPhoneNumber((String) value);
+//    				break;
+//
+//    			case "vehicleNumber":deliveryAgent.setVehicleNumber((String) value);
+//    				break;
+//
+//    			case "availabilityStatus":deliveryAgent.setAvailabilityStatus((Boolean) value);
+//    				break;
+//
+//    			case "rating":deliveryAgent.setRating(Float.parseFloat(value.toString()));
+//    				break;
+//
+//    			default:
+//    				throw new InvalidInputException("Invalid Field : " + key);
+//    			}
+//    		}
+//
+//    		DeliveryAgent agent = deliveryAgentRepository.save(deliveryAgent);
+//
+//    		ResponseStructure<DeliveryAgent> responseStructure = new ResponseStructure<>();
+//
+//    		responseStructure.setStatusCode(HttpStatus.OK.value());
+//    		responseStructure.setMessage("Delivery Agent Updated Successfully");
+//    		responseStructure.setData(agent);
+//
+//    		return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+//    	}
+//       
+//	
+//	
+//       public ResponseEntity<ResponseStructure<String>> deleteById(Integer deliveryId){
+//    		  Optional<DeliveryAgent> optional = deliveryAgentRepository.findById(deliveryId);
+//
+//    		 if(optional.isEmpty()) {
+//    			throw new ResourceNotFoundException("Invalid Delivery Agent Id " + deliveryId);
+//    		}
+//
+//    	      deliveryAgentRepository.deleteById(deliveryId);
+//
+//    		  ResponseStructure<String> responseStructure = new ResponseStructure<>();
+//
+//    		 responseStructure.setStatusCode(HttpStatus.OK.value());
+//    		 responseStructure.setMessage("Delivery Agent Deleted Successfully");
+//    		 responseStructure.setData("Success");
+//
+//    		return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+//    	}
+//	
 	   
        
 
