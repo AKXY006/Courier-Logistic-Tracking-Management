@@ -16,7 +16,6 @@ import com.logistic.courier.exception.DuplicateResourceException;
 import com.logistic.courier.exception.InvalidInputException;
 import com.logistic.courier.exception.ResourceNotFoundException;
 import com.logistic.courier.repository.CustomerRepository;
-import com.logistic.courier.repository.ShipmentRepository;
 import com.logistic.courier.util.ResponseStructure;
 
 @Service
@@ -25,8 +24,7 @@ public class CustomerService {
 	@Autowired
 	private CustomerRepository customerRepository;
 	
-	@Autowired
-	private ShipmentRepository shipmentRepository;
+
 	
 	//1)
 	    public ResponseEntity<ResponseStructure<List<Customer>>> saveCustomer(List<Customer> customers){
@@ -152,13 +150,13 @@ public class CustomerService {
     	            default: throw new InvalidInputException("Invalid Field : " + key);
     	            }
     		  }
-    	           Customer customer = customerRepository.save(cust);
+    	           customerRepository.save(cust);
     	           
     	           ResponseStructure<Customer> responseStructure = new ResponseStructure<>();
     	           
     	           responseStructure.setStatusCode(HttpStatus.OK.value());
     	           responseStructure.setMessage("Update Customer Successfully");
-    	           responseStructure.setData(cust);
+    	           responseStructure.setData(customerRepository.save(cust));
     	           
     	           return new ResponseEntity<>(responseStructure,HttpStatus.OK);
         }

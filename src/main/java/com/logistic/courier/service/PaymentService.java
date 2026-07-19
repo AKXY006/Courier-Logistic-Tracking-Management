@@ -21,6 +21,24 @@ public class PaymentService {
 	@Autowired
 	private PaymentRepository paymentRepository;
 	
+	
+	public ResponseEntity<ResponseStructure<List<Payment>>>  saveAll(List<Payment> payments){
+		List<Payment> savePayments = paymentRepository.saveAll(payments);
+		
+		if(savePayments.isEmpty()) {
+			throw new ResourceNotFoundException("No record found");
+		}
+		
+        ResponseStructure<List<Payment>> responseStructure = new ResponseStructure<>();
+		
+		responseStructure.setStatusCode(HttpStatus.CREATED.value());
+		responseStructure.setMessage("Payment record successfully received");
+		responseStructure.setData(payments);
+		
+		return new ResponseEntity<>(responseStructure,HttpStatus.CREATED);
+		
+	}
+	
 	public ResponseEntity<ResponseStructure<List<Payment>>> findAllPayment(){
 		List<Payment> payments = paymentRepository.findAll();
 		
