@@ -22,7 +22,21 @@ public class TrackingHistoryService {
 	@Autowired
 	private TrackingHistoryRepository trackingHistoryRepository;
 	
+	public ResponseEntity<ResponseStructure<List<TrackingHistory>>> saveAllTrackingHistory(List<TrackingHistory> trackingHistories) {
+		List<TrackingHistory> saveHistories = trackingHistoryRepository.saveAll(trackingHistories);
+		
+		ResponseStructure<List<TrackingHistory>> responseStructure = new ResponseStructure<>();
+		responseStructure.setStatusCode(HttpStatus.CREATED.value());
+		responseStructure.setMessage("TrackingHistory saved Successfully");
+		responseStructure.setData(saveHistories);
+		
+		return new ResponseEntity<>(responseStructure,HttpStatus.CREATED);
+	}
+	
+	
+	
 	public ResponseEntity<ResponseStructure<List<TrackingHistory>>> findAllHistory(){
+		
 		List<TrackingHistory> trackingHistories = trackingHistoryRepository.findAll();
 		if(trackingHistories.isEmpty()) {
 			throw new ResourceNotFoundException("Tracking history empty");
@@ -36,6 +50,12 @@ public class TrackingHistoryService {
 		
 		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
 	}
+
+
+
+
+
+
 	
 	    public ResponseEntity<ResponseStructure<TrackingHistory>> findById(Integer trackingHistoryId){
 		Optional<TrackingHistory> trackingHistory = trackingHistoryRepository.findById(trackingHistoryId);
@@ -52,7 +72,11 @@ public class TrackingHistoryService {
 		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
 	}
 	    
-	    public ResponseEntity<ResponseStructure<List<TrackingHistory>>> findBystatus(TrackingStatus trackingStatus){
+	   
+
+
+
+		public ResponseEntity<ResponseStructure<List<TrackingHistory>>> findByStatus(TrackingStatus trackingStatus) {
 			List<TrackingHistory> trackingHistory = trackingHistoryRepository.findByTrackingStatus(trackingStatus);
 			if(trackingHistory.isEmpty()) {
 				throw new ResourceNotFoundException("Tracking status not found");
