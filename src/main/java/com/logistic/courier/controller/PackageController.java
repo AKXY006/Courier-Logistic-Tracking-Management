@@ -41,10 +41,4 @@ public class PackageController {
     public ResponseEntity<ResponseStructure<List<Package>>> findByPackageType(@PathVariable PackageType packageType){
     	return packageService.findByType(packageType);
     }
-    
-    
-   
-    
-    
-
 }
