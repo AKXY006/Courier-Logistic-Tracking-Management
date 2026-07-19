@@ -65,7 +65,4 @@ public class DeliveryAgentController {
 	public ResponseEntity<ResponseStructure<String>> deleteById(@PathVariable Integer id){
 		return deliveryAgentService.deleteById(id);
 	}
-	
-	
-
 }

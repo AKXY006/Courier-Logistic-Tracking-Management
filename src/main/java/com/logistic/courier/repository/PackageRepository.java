@@ -10,7 +10,5 @@ import com.logistic.courier.entity.PackageType;
 
 public interface PackageRepository extends JpaRepository<Package,Integer>{
 	
-	//List<Package> findByPackageType(PackageType packageType);
-
-	
+	List<Package> findByPackageType(PackageType packageType);	
 }
