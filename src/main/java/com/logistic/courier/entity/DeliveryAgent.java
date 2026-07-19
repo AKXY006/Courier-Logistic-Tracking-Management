@@ -36,11 +36,11 @@ public class DeliveryAgent {
     @NotBlank(message = "Name is required")
     private String name;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", unique = true, length = 10)
     @NotBlank(message = "Phone number is required")
     private String phoneNumber;
 
-    @Column(name = "vehicle_number")
+    @Column(name = "vehicle_number", unique = true)
     @NotBlank(message = "Vehicle number is required")
     private String vehicleNumber;
 

@@ -40,7 +40,7 @@ public class Shipment {
 	@Column(name="shipment_id")
 	private Integer shipmentId;
 	
-	@Column(name="tracking_number")
+	@Column(name="tracking_number", unique = true)
 	@NotBlank(message = "Tracking number is required")
 	private String trackingNumber;
 	
@@ -84,13 +84,15 @@ public class Shipment {
 	@JsonBackReference("agent-shipment")
 	private DeliveryAgent deliveryAgent;
 
-	@OneToOne(mappedBy = "shipment", cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "payment_id")
 	@JsonManagedReference("shipment-payment")
 	private Payment payment;
 
-	@OneToOne(mappedBy = "shipment", cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "package_id")
 	@JsonManagedReference("shipment-package")
-	private Package package1;
+	private Package packageEntity;
 
 	@OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL)
 	@JsonManagedReference("shipment-tracking")

@@ -51,8 +51,7 @@ public class Payment {
     @Column(name = "payment_date_time")
     private LocalDateTime paymentDateAndTime;
     
-    @OneToOne
-    @JoinColumn(name = "shipment_id")
+    @OneToOne(mappedBy = "payment")
     @JsonBackReference("shipment-payment")
     private Shipment shipment;
 }

@@ -42,8 +42,7 @@ public class Package {
     @NotNull(message = "Dimension is required")
     private Double dimension;
     
-    @OneToOne
-    @JoinColumn(name = "shipment_id")
+    @OneToOne(mappedBy = "packageEntity")
     @JsonBackReference("shipment-package")
     private Shipment shipment;
 }
