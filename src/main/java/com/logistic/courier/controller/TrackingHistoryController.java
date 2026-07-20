@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,8 @@ import com.logistic.courier.entity.TrackingStatus;
 import com.logistic.courier.service.TrackingHistoryService;
 import com.logistic.courier.util.ResponseStructure;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/trackinghistory")
 public class TrackingHistoryController {
@@ -24,7 +27,7 @@ public class TrackingHistoryController {
 	private TrackingHistoryService trackingHistoryService;
 	
 	@PostMapping
-	public ResponseEntity< ResponseStructure<List<TrackingHistory>>>  saveAll(@RequestBody List<TrackingHistory> trackingHistories){
+	public ResponseEntity< ResponseStructure<List<TrackingHistory>>>  saveAll(@Valid @RequestBody List<TrackingHistory> trackingHistories){
 		return trackingHistoryService.saveAllTrackingHistory(trackingHistories);
 	}
 	
@@ -33,7 +36,7 @@ public class TrackingHistoryController {
 		return trackingHistoryService.findAllHistory();
 	}
 	
-	@GetMapping("/id/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<ResponseStructure<TrackingHistory>> findById(@PathVariable Integer id){
 		return trackingHistoryService.findById(id);
 	}
@@ -41,5 +44,15 @@ public class TrackingHistoryController {
 	@GetMapping("/status/{trackingStatus}")
 	public ResponseEntity<ResponseStructure<List<TrackingHistory>>> findByStatus(@PathVariable TrackingStatus trackingStatus) {
 	    return trackingHistoryService.findByStatus(trackingStatus);
+	}
+	
+	@GetMapping("/tracking/{trackingNumber}")
+	public ResponseEntity<ResponseStructure<List<TrackingHistory>>> findByTrackingNumber(@PathVariable String trackingNumber) {
+	    return trackingHistoryService.findByTrackingNumber(trackingNumber);
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<ResponseStructure<String>> deleteById(@PathVariable Integer id) {
+	    return trackingHistoryService.deleteById(id);
 	}
 }

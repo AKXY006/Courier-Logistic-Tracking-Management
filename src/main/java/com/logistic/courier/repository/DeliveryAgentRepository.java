@@ -13,6 +13,6 @@ public interface DeliveryAgentRepository extends JpaRepository<DeliveryAgent, In
 	
 		Optional<DeliveryAgent> findByPhoneNumber(String phoneNumber);
 
-	    List<DeliveryAgent> findByRatingGreaterThan(Float rating);
+	    List<DeliveryAgent> findByRating(Float rating);
 		
 }

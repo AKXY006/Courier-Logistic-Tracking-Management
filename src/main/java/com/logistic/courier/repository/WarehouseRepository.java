@@ -13,6 +13,6 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer>{
 
 	List<Warehouse> findByWarehouseLocation(String warehouseLocation);
 
-	List<Warehouse> findByCapacityGreaterThan(Integer capacity);
+	List<Warehouse> findByCapacity(Integer capacity);
 
 }

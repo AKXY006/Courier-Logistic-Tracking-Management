@@ -15,6 +15,8 @@ import com.logistic.courier.entity.PackageType;
 import com.logistic.courier.service.PackagesService;
 import com.logistic.courier.util.ResponseStructure;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/package")
 public class PackageController {
@@ -23,7 +25,7 @@ public class PackageController {
     private PackagesService packageService;
 
     @PostMapping
-    public ResponseEntity<ResponseStructure<List<Package>>> saveAllPackage(@RequestBody List<Package> packages) {
+    public ResponseEntity<ResponseStructure<List<Package>>> saveAllPackage(@Valid @RequestBody List<Package> packages) {
         return packageService.saveAll(packages);
     }
     
@@ -32,12 +34,12 @@ public class PackageController {
     	return packageService.findAll();
     }
     
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ResponseStructure<Package>>  findById(@PathVariable Integer id){
     	return packageService.findById(id);
     }
     
-    @GetMapping("/packagetype/{packageType}")
+    @GetMapping("/type/{packageType}")
     public ResponseEntity<ResponseStructure<List<Package>>> findByPackageType(@PathVariable PackageType packageType){
     	return packageService.findByType(packageType);
     }

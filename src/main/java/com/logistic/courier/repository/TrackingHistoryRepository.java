@@ -10,7 +10,7 @@ import com.logistic.courier.entity.TrackingStatus;
 
 public interface TrackingHistoryRepository extends JpaRepository<TrackingHistory, Integer>{
 
-    List<TrackingHistory> findByTrackingNumber(String trackingNumber);    
+    List<TrackingHistory> findByShipmentTrackingNumber(String trackingNumber);    
 
     List<TrackingHistory> findByTrackingStatus(TrackingStatus trackingStatus);
 

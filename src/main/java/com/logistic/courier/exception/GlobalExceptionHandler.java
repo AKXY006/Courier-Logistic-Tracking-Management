@@ -16,7 +16,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 
 	    ResponseStructure<String> responseStructure = new ResponseStructure<>();
 	    responseStructure.setStatusCode(HttpStatus.BAD_REQUEST.value());
-	    responseStructure.setMessage("Failed");
+	    responseStructure.setMessage("Active Status Error");
 	    responseStructure.setData(exception.getMessage());
 
 	    return new ResponseEntity<>(responseStructure, HttpStatus.BAD_REQUEST);
@@ -27,7 +27,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 
 	    ResponseStructure<String> responseStructure = new ResponseStructure<>();
 	    responseStructure.setStatusCode(HttpStatus.CONFLICT.value());
-	    responseStructure.setMessage("Failed");
+	    responseStructure.setMessage("Duplicate Resource");
 	    responseStructure.setData(exception.getMessage());
 
 	    return new ResponseEntity<>(responseStructure, HttpStatus.CONFLICT);
@@ -38,7 +38,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 
 	    ResponseStructure<String> responseStructure = new ResponseStructure<>();
 	    responseStructure.setStatusCode(HttpStatus.BAD_REQUEST.value());
-	    responseStructure.setMessage("Failed");
+	    responseStructure.setMessage("Invalid Input");
 	    responseStructure.setData(exception.getMessage());
 
 	    return new ResponseEntity<>(responseStructure, HttpStatus.BAD_REQUEST);
@@ -49,7 +49,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 
 	    ResponseStructure<String> responseStructure = new ResponseStructure<>();
 	    responseStructure.setStatusCode(HttpStatus.BAD_REQUEST.value());
-	    responseStructure.setMessage("Failed");
+	    responseStructure.setMessage("Invalid Status");
 	    responseStructure.setData(exception.getMessage());
 
 	    return new ResponseEntity<>(responseStructure, HttpStatus.BAD_REQUEST);
@@ -60,7 +60,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 
 	    ResponseStructure<String> responseStructure = new ResponseStructure<>();
 	    responseStructure.setStatusCode(HttpStatus.NOT_FOUND.value());
-	    responseStructure.setMessage("Failed");
+	    responseStructure.setMessage("Resource Not Found");
 	    responseStructure.setData(exception.getMessage());
 
 	    return new ResponseEntity<>(responseStructure, HttpStatus.NOT_FOUND);

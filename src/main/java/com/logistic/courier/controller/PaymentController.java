@@ -18,8 +18,10 @@ import com.logistic.courier.entity.PaymentStatus;
 import com.logistic.courier.service.PaymentService;
 import com.logistic.courier.util.ResponseStructure;
 
+import jakarta.validation.Valid;
+
 @RestController
-@RequestMapping("payment")
+@RequestMapping("/payment")
 public class PaymentController {
 	
        @Autowired
@@ -27,7 +29,7 @@ public class PaymentController {
        
        
        @PostMapping
-       public ResponseEntity<ResponseStructure<List<Payment>>>  saveAllPayment(@RequestBody List<Payment> payments){
+       public ResponseEntity<ResponseStructure<List<Payment>>>  saveAllPayment(@Valid @RequestBody List<Payment> payments){
     	   return paymentService.saveAll(payments);
        }
        
@@ -36,14 +38,14 @@ public class PaymentController {
     	   return paymentService.findAllPayment();
        }
        
-       @GetMapping("/id/{id}")
+       @GetMapping("/{id}")
        public ResponseEntity<ResponseStructure<Payment>>  findById(@PathVariable Integer id){
     	   return paymentService.findById(id);
        }
        
        @PatchMapping("/{id}")
-       public ResponseEntity<ResponseStructure<Payment>> updatPayment(@PathVariable Integer id, @RequestBody PaymentStatus payment){
-    	   return paymentService.updateStatus(id, payment);
+       public ResponseEntity<ResponseStructure<Payment>> updatePayment(@PathVariable Integer id, @RequestBody PaymentStatus paymentStatus){
+    	   return paymentService.updateStatus(id, paymentStatus);
     	}
        
        @DeleteMapping("/{id}")

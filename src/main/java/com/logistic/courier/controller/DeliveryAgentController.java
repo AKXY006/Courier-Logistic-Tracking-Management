@@ -18,6 +18,8 @@ import com.logistic.courier.entity.DeliveryAgent;
 import com.logistic.courier.service.DeliveryAgentService;
 import com.logistic.courier.util.ResponseStructure;
 
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/deliveryagent")
@@ -27,7 +29,7 @@ public class DeliveryAgentController {
 	private DeliveryAgentService deliveryAgentService;
 	
 	@PostMapping
-	public ResponseEntity<ResponseStructure<List<DeliveryAgent>>>  saveDeliveryAgent(@RequestBody List<DeliveryAgent> deliveryAgents){
+	public ResponseEntity<ResponseStructure<List<DeliveryAgent>>>  saveDeliveryAgent(@Valid @RequestBody List<DeliveryAgent> deliveryAgents){
 		return deliveryAgentService.saveDeliveryAgent(deliveryAgents);
 	}
 	
@@ -36,24 +38,24 @@ public class DeliveryAgentController {
 		return deliveryAgentService.findAllDeliveryAgent();
 	}
 	
-	@GetMapping("/id/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<ResponseStructure<DeliveryAgent>>  findById(@PathVariable Integer id){
 		return deliveryAgentService.findById(id);
 	}
 	
-	@GetMapping("/vehiclenumber/{vehiclenumber}")
-	public ResponseEntity<ResponseStructure<DeliveryAgent>> findByVehicleNumber(@PathVariable String vehiclenumber){
-		return deliveryAgentService.findDeliveryAgentByVehicleNumber(vehiclenumber);
+	@GetMapping("/vehicle/{vehicleNumber}")
+	public ResponseEntity<ResponseStructure<DeliveryAgent>> findByVehicleNumber(@PathVariable String vehicleNumber){
+		return deliveryAgentService.findDeliveryAgentByVehicleNumber(vehicleNumber);
 	}
 	
 	@GetMapping("/contact/{contactNumber}")
 	public ResponseEntity<ResponseStructure<DeliveryAgent>> findByContactNumber(@PathVariable String contactNumber){
-		return deliveryAgentService.findDeliveryAgentByphoneNumber(contactNumber);
+		return deliveryAgentService.findDeliveryAgentByPhoneNumber(contactNumber);
 	}
 	
 	@GetMapping("/rating/{rating}")
-	public ResponseEntity<ResponseStructure<List<DeliveryAgent>>>  findByRatingGreaterThan(@PathVariable Float rating){
-		return deliveryAgentService.findDeliveryAgentByRatingGreaterThan(rating);
+	public ResponseEntity<ResponseStructure<List<DeliveryAgent>>>  findByRating(@PathVariable Float rating){
+		return deliveryAgentService.findDeliveryAgentByRating(rating);
 	}
 	
 	@PatchMapping("/update/{id}")

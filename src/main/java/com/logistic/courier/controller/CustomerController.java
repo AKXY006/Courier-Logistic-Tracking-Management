@@ -19,6 +19,8 @@ import com.logistic.courier.entity.Customer;
 import com.logistic.courier.service.CustomerService;
 import com.logistic.courier.util.ResponseStructure;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
@@ -27,7 +29,7 @@ public class CustomerController {
 	private CustomerService customerService;
 	
 	@PostMapping
-	public ResponseEntity<ResponseStructure<List<Customer>>> save(@RequestBody List<Customer> customers){
+	public ResponseEntity<ResponseStructure<List<Customer>>> save(@Valid @RequestBody List<Customer> customers){
 		return customerService.saveCustomer(customers);
 	}
 	
@@ -47,7 +49,7 @@ public class CustomerController {
 	}
 	
 	@PatchMapping("/update/{customerId}")
-	public ResponseEntity<ResponseStructure<Customer>>  updatCustomer(@PathVariable Integer customerId, @RequestBody  Map<String , Object> customer){
+	public ResponseEntity<ResponseStructure<Customer>>  updateCustomer(@PathVariable Integer customerId, @RequestBody  Map<String , Object> customer){
 		return customerService.updateCustomer(customerId, customer);
 	}
 	
@@ -56,7 +58,7 @@ public class CustomerController {
 		return customerService.deletById(id);
 	}
 	
-	@GetMapping("/contactnumber/{customerPhoneNumber}")
+	@GetMapping("/contact/{customerPhoneNumber}")
 	public ResponseEntity<ResponseStructure<Customer>>  findByCustomerContactNumber(@PathVariable String customerPhoneNumber){
 		return customerService.findByCustomerPhoneNumber(customerPhoneNumber);
 	}

@@ -38,7 +38,7 @@ public class WarehouseController {
 		return warehouseService.findAllWarehouse();
 	}
 	
-	@GetMapping("/id/{warehouseId}")
+	@GetMapping("/{warehouseId}")
 	public ResponseEntity<ResponseStructure<Warehouse>>  findById(@PathVariable Integer warehouseId){
 		return warehouseService.findById(warehouseId);
 	}
@@ -49,8 +49,8 @@ public class WarehouseController {
 	}
 	
 	@GetMapping("/capacity/{capacity}")
-	public ResponseEntity<ResponseStructure<List<Warehouse>>>  findByCapacityGreaterThan(@PathVariable Integer capacity){
-		return warehouseService.findByCapacityGreaterThan(capacity);
+	public ResponseEntity<ResponseStructure<List<Warehouse>>>  findByCapacity(@PathVariable Integer capacity){
+		return warehouseService.findByCapacity(capacity);
 	}
 	
 	@DeleteMapping("/{warehouseId}")

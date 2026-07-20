@@ -1,6 +1,6 @@
 package com.logistic.courier.repository;
 
-
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,37 +9,23 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.logistic.courier.entity.Shipment;
 import com.logistic.courier.entity.ShipmentStatus;
 
+
 public interface ShipmentRepository extends JpaRepository<Shipment, Integer>{
 
-	
-	   //4) Get By TrackingNumber -> GetMapping -> getByTrackingNumber()
-	   //Optional<Shipment> findByTrackingNumber(String trackingNumber);
+
+	   Optional<Shipment> findByTrackingNumber(String trackingNumber);
 	   
-	   //5) update status -> PatchMapping --> updateBystatus()
+	   List<Shipment> findByCustomerCustomerId(Integer customerId);
+
+	    List<Shipment> findByWarehouseWarehouseId(Integer warehouseId);
+
+	    List<Shipment> findByDeliveryAgentDeliveryId(Integer deliveryId);
+
+	    List<Shipment> findByStatus(ShipmentStatus status);
+
+	    List<Shipment> findBySourceAndDestination(String source, String destination);
+
+	    List<Shipment> findByDeliveryDate(LocalDate deliveryDate);
 	  
 	   
-	   //6) Assigned By Deliver Agent --> GetMapping -> GetById()
-	   //Not Sure 
-	   
-	   //7) Assigned WareHouse
-	   
-	   //8) Delete shipment -> DeleteMapping -> getById()
-
-	   //9) confuse 
-	   
-	   //10) confuse
-	   
-	   //11) confuse
-	   
-	   //13) Get By Source And Destination -> GetMapping -> getBySourceAndDestination()
-	   //List<Shipment> findBySourceAndDestination(String source, String destination);
-	   
-	   //14) Get By deliveryDate -> GetMapping -> getByDeliveryDate()
-	   //List<Shipment> findByDeliveryDate(String deliveryDate);
-	   
-	   //15) Get By Pagination And Sorting 
-	   
-	   
-	   //EXTRA
-//	   Optional<Shipment> existsByCustomerCustomerId(Integer customerId);
 }
