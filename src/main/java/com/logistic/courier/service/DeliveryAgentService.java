@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.logistic.courier.entity.DeliveryAgent;
 import com.logistic.courier.exception.DuplicateResourceException;
 import com.logistic.courier.exception.InvalidInputException;
+import com.logistic.courier.exception.InvalidStatusException;
 import com.logistic.courier.exception.ResourceNotFoundException;
 import com.logistic.courier.repository.DeliveryAgentRepository;
 import com.logistic.courier.util.ResponseStructure;
@@ -26,6 +27,19 @@ public class DeliveryAgentService {
 	public ResponseEntity<ResponseStructure<List<DeliveryAgent>>> saveDeliveryAgent(List<DeliveryAgent> deliveryAgents){
 		
 		for(DeliveryAgent deliveryAgent: deliveryAgents) {
+			
+			String phoneNumber = deliveryAgent.getPhoneNumber();
+			
+			if(phoneNumber == null || phoneNumber.length() != 10) {
+				throw new InvalidInputException(phoneNumber);
+			}
+			
+			for (int i = 0; i < phoneNumber.length(); i++) {
+	            if (!Character.isDigit(phoneNumber.charAt(i))) {
+	                throw new InvalidInputException("Phone Number Must Contain Only Digits");
+	            }
+	        }
+			
 		Optional<DeliveryAgent> optional = deliveryAgentRepository.findByPhoneNumber(deliveryAgent.getPhoneNumber());
 		
 		if(optional.isPresent()) {
@@ -40,13 +54,13 @@ public class DeliveryAgentService {
 		
 		}
 		
-		List<DeliveryAgent> saveDeliveryAgents = deliveryAgentRepository.saveAll(deliveryAgents);
+		List<DeliveryAgent> savedDeliveryAgents = deliveryAgentRepository.saveAll(deliveryAgents);
 		
 		ResponseStructure<List<DeliveryAgent>> responseStructure = new ResponseStructure<>();
 		
 		responseStructure.setStatusCode(HttpStatus.CREATED.value());
 		responseStructure.setMessage("Save DeliverAgent Successfully");
-		responseStructure.setData(saveDeliveryAgents);
+		responseStructure.setData(savedDeliveryAgents);
 		
 		return new ResponseEntity<>(responseStructure,HttpStatus.CREATED);
 	}
@@ -55,13 +69,11 @@ public class DeliveryAgentService {
 	
 	public ResponseEntity<ResponseStructure<List<DeliveryAgent>>> findAllDeliveryAgent(){
 		
-		List<DeliveryAgent> dAgents= deliveryAgentRepository.findAll();
+		List<DeliveryAgent> deliveryAgents= deliveryAgentRepository.findAll();
 		
-		if(dAgents.isEmpty()) {
+		if(deliveryAgents.isEmpty()) {
 			throw new ResourceNotFoundException("No delivery agent");
 		}
-		
-		List<DeliveryAgent> deliveryAgents=deliveryAgentRepository.findAll();
 		
 		ResponseStructure<List<DeliveryAgent>> responseStructure = new ResponseStructure<>();
 		
@@ -76,7 +88,7 @@ public class DeliveryAgentService {
 		Optional<DeliveryAgent> optional= deliveryAgentRepository.findById(deliveryId);
 		
 		if(optional.isEmpty()) {
-			throw new ResourceNotFoundException("No delivery agent");
+			throw new ResourceNotFoundException("Delivery Agent Not Found With Id : " + deliveryId);
 		}
 		
 		ResponseStructure<DeliveryAgent> responseStructure = new ResponseStructure<>();
@@ -92,7 +104,7 @@ public class DeliveryAgentService {
 		Optional<DeliveryAgent> optional= deliveryAgentRepository.findByVehicleNumber(vehicleNumber);
 		
 		if(optional.isEmpty()) {
-			throw new ResourceNotFoundException("No delivery agent");
+			throw new ResourceNotFoundException("Delivery Agent Not Found With Vehicle Number : " + vehicleNumber);
 		}
 		
 		ResponseStructure<DeliveryAgent> responseStructure = new ResponseStructure<>();
@@ -103,25 +115,25 @@ public class DeliveryAgentService {
 		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
 	}
        
-       public ResponseEntity<ResponseStructure<DeliveryAgent>> findDeliveryAgentByphoneNumber(String phoneNumber){
+       public ResponseEntity<ResponseStructure<DeliveryAgent>> findDeliveryAgentByPhoneNumber(String phoneNumber){
    		
    		Optional<DeliveryAgent> optional= deliveryAgentRepository.findByPhoneNumber(phoneNumber);
    		
    		if(optional.isEmpty()) {
-   			throw new ResourceNotFoundException("No delivery agent");
+   			throw new ResourceNotFoundException("Delivery Agent Not Found With Phone Number : " + phoneNumber);
    		}
    		
    		ResponseStructure<DeliveryAgent> responseStructure = new ResponseStructure<>();
    		
    		responseStructure.setStatusCode(HttpStatus.OK.value());
-   		responseStructure.setMessage("All delivery Agent");
+   		responseStructure.setMessage("Delivery Agent Found Successfully");
    		responseStructure.setData(optional.get());
    		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
    	}
        
-       public ResponseEntity<ResponseStructure<List<DeliveryAgent>>> findDeliveryAgentByRatingGreaterThan(Float rating){
+       public ResponseEntity<ResponseStructure<List<DeliveryAgent>>> findDeliveryAgentByRating(Float rating){
 
-    		List<DeliveryAgent> list = deliveryAgentRepository.findByRatingGreaterThan(rating);
+    		List<DeliveryAgent> list = deliveryAgentRepository.findByRating(rating);
 
     		if(list.isEmpty()) {
     			throw new ResourceNotFoundException("No Delivery Agent Found");
@@ -155,10 +167,40 @@ public class DeliveryAgentService {
     			case "name":deliveryAgent.setName((String) value);
     				break;
 
-    			case "phoneNumber":deliveryAgent.setPhoneNumber((String) value);
+    			case "phoneNumber":
+    				
+    				String phoneNumber = (String) value;
+
+    	            if (phoneNumber == null || phoneNumber.length() != 10) {
+    	                throw new InvalidInputException("Phone Number Must Be Exactly 10 Digits");
+    	            }
+
+    	            for (int i = 0; i < phoneNumber.length(); i++) {
+    	                if (!Character.isDigit(phoneNumber.charAt(i))) {
+    	                    throw new InvalidInputException("Phone Number Must Contain Only Digits");
+    	                }
+    	            }
+
+    	            Optional<DeliveryAgent> phone = deliveryAgentRepository.findByPhoneNumber(phoneNumber);
+
+    	            if (phone.isPresent() && !phone.get().getDeliveryId().equals(deliveryId)) {
+    	                throw new DuplicateResourceException("Phone Number Already Exists");
+    	            }
+    				
+    				deliveryAgent.setPhoneNumber((String) value);
     				break;
 
-    			case "vehicleNumber":deliveryAgent.setVehicleNumber((String) value);
+    			case "vehicleNumber":
+    				  String vehicleNumber = (String) value;
+
+    		            Optional<DeliveryAgent> vehicle =
+    		                    deliveryAgentRepository.findByVehicleNumber(vehicleNumber);
+
+    		            if (vehicle.isPresent()
+    		                    && !vehicle.get().getDeliveryId().equals(deliveryId)) {
+    		                throw new DuplicateResourceException("Vehicle Number Already Exists");
+    		            }
+    				deliveryAgent.setVehicleNumber((String) value);
     				break;
 
     			case "availabilityStatus":deliveryAgent.setAvailabilityStatus((Boolean) value);
@@ -191,6 +233,12 @@ public class DeliveryAgentService {
     		 if(optional.isEmpty()) {
     			throw new ResourceNotFoundException("Invalid Delivery Agent Id " + deliveryId);
     		}
+    		 
+    		 DeliveryAgent deliveryAgent = optional.get();
+
+    		    if (deliveryAgent.getShipments() != null && !deliveryAgent.getShipments().isEmpty()) {
+    		        throw new InvalidStatusException("Delivery Agent Cannot Be Deleted Because Shipments Are Assigned");
+    		    }
 
     	      deliveryAgentRepository.deleteById(deliveryId);
 
