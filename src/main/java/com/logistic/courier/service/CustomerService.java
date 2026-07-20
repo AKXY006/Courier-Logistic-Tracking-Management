@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.logistic.courier.entity.Customer;
+import com.logistic.courier.exception.ActiveStatusException;
 import com.logistic.courier.exception.DuplicateResourceException;
 import com.logistic.courier.exception.InvalidInputException;
 import com.logistic.courier.exception.ResourceNotFoundException;
@@ -36,25 +37,27 @@ public class CustomerService {
 			throw new DuplicateResourceException("Email Already In Use");
 		}
 		
-		if (customer.getCustomerPhoneNumber().length() != 10) {
-		    throw new InvalidInputException("Mobile number must be exactly 10 digits");
-		}
-		
-		Optional<Customer> opt= customerRepository.findByCustomerPhoneNumber(customer.getCustomerPhoneNumber());
-		
-		if(opt.isPresent()) {
-			throw new DuplicateResourceException("Mobile Number Already In Use");
-		 }
+		String phoneNumber = customer.getCustomerPhoneNumber();
+
+        if (phoneNumber == null || phoneNumber.length() != 10) {
+            throw new InvalidInputException("Phone Number Must Be Exactly 10 Digits");
+        }
+        
+        Optional<Customer> opt = customerRepository.findByCustomerPhoneNumber(phoneNumber);
+
+        if (opt.isPresent()) {
+            throw new DuplicateResourceException("Phone Number Already In Use");
+        }
 		
 	    }
 		
-		List<Customer> cus = customerRepository.saveAll(customers);
+		List<Customer> savedCustomers = customerRepository.saveAll(customers);
 		
 		ResponseStructure<List<Customer>> responseStructure = new ResponseStructure<>();
 		
 		responseStructure.setStatusCode(HttpStatus.CREATED.value());
-		responseStructure.setMessage("Customer Saved Successfully");
-		responseStructure.setData(cus);
+		responseStructure.setMessage("Customers Saved Successfully");
+		responseStructure.setData(savedCustomers);
 		
 		return new ResponseEntity<>(responseStructure,HttpStatus.CREATED);
 		
@@ -70,11 +73,11 @@ public class CustomerService {
             }
 		ResponseStructure<List<Customer>> responseStructure = new ResponseStructure<>();
 		
-		responseStructure.setStatusCode(HttpStatus.CREATED.value());
-		responseStructure.setMessage("All Customer Saved successfully");
+		responseStructure.setStatusCode(HttpStatus.OK.value());
+		responseStructure.setMessage("All Customers Fetched Successfully");
 		responseStructure.setData(customers);
 		
-		return new ResponseEntity<>(responseStructure,HttpStatus.CREATED);
+		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
 		
 	}
         
@@ -84,7 +87,7 @@ public class CustomerService {
     		Optional<Customer> optional = customerRepository.findById(customerId);
     		
     		if(optional.isEmpty()) {
-    			throw new ResourceNotFoundException("Invalid CustomerId"+customerId);
+    			throw new ResourceNotFoundException("Customer Not Found With Id "+customerId);
     		}
     		
     		Customer customer = optional.get();
@@ -92,7 +95,7 @@ public class CustomerService {
     		ResponseStructure<Customer> responseStructure = new ResponseStructure<>();
     		
     		responseStructure.setStatusCode(HttpStatus.OK.value());
-    		responseStructure.setMessage("Customer found Successfully");
+    		responseStructure.setMessage("Customer Found Successfully");
     		responseStructure.setData(customer);
     		
     		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
@@ -104,7 +107,7 @@ public class CustomerService {
     		Optional<Customer> optional = customerRepository.findByCustomerEmail(customerEmail);
     		
     		if(optional.isEmpty()) {
-    			throw new ResourceNotFoundException("Invalid Customer Email"+customerEmail);
+    			throw new ResourceNotFoundException("Invalid Customer Email "+customerEmail);
     		}
     		
     		Customer customer = optional.get();
@@ -138,10 +141,32 @@ public class CustomerService {
     	            case "customerName": cust.setCustomerName((String) value);
     	                break;
 
-    	            case "customerEmail": cust.setCustomerEmail((String) value);
+    	            case "customerEmail": 
+    	            	
+    	            	 Optional<Customer> email = customerRepository.findByCustomerEmail((String) value);
+
+    	            	    if (email.isPresent() && !email.get().getCustomerId().equals(customerId)) {
+    	            	        throw new DuplicateResourceException("Email Already In Use");
+    	            	    }
+    	            	    
+    	            	cust.setCustomerEmail((String) value);
     	                break;
 
-    	            case "customerPhoneNumber":cust.setCustomerPhoneNumber((String) value);
+    	            case "customerPhoneNumber":
+    	            	
+    	            	  String phone = (String) value;
+
+    	                  if (phone.length() != 10) {
+    	                      throw new InvalidInputException("Phone Number Must Be 10 Digits");
+    	                  }
+
+    	                  Optional<Customer> contact = customerRepository.findByCustomerPhoneNumber(phone);
+
+    	                  if (contact.isPresent() && !contact.get().getCustomerId().equals(customerId)) {
+    	                      throw new DuplicateResourceException("Phone Number Already In Use");
+    	                  }
+    	            	
+    	            	cust.setCustomerPhoneNumber((String) value);
     	                break;
 
     	            case "customerAddress":cust.setCustomerAddress((String) value);
@@ -150,13 +175,13 @@ public class CustomerService {
     	            default: throw new InvalidInputException("Invalid Field : " + key);
     	            }
     		  }
-    	           customerRepository.save(cust);
+    	          Customer saveCustomer = customerRepository.save(cust);
     	           
     	           ResponseStructure<Customer> responseStructure = new ResponseStructure<>();
     	           
     	           responseStructure.setStatusCode(HttpStatus.OK.value());
     	           responseStructure.setMessage("Update Customer Successfully");
-    	           responseStructure.setData(customerRepository.save(cust));
+    	           responseStructure.setData(saveCustomer);
     	           
     	           return new ResponseEntity<>(responseStructure,HttpStatus.OK);
         }
@@ -170,12 +195,8 @@ public class CustomerService {
         		if(optional.isEmpty()) {
         			throw new ResourceNotFoundException("Invalid Customer Id : " + customerId);
         		}
-
-//       		if(shipmentRepository.existsByCustomerCustomerId(customerId)) {
-//        			throw new ActiveStatusException("Customer cannot be deleted because orders exist.");
-//     		}
-        		
-        		customerRepository.deleteById(customerId);
+        			
+        	 customerRepository.deleteById(customerId);
         	 ResponseStructure<String> response = new ResponseStructure<>();
 
              response.setStatusCode(HttpStatus.OK.value());
@@ -183,7 +204,6 @@ public class CustomerService {
              response.setData("Success");
 
              return ResponseEntity.ok(response);
-        	 
         	 
          }
         
