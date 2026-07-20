@@ -53,13 +53,13 @@ public class PackagesService {
 	public ResponseEntity<ResponseStructure<Package>> findById(Integer packageId){
 	Optional<Package> optional = packageRepository.findById(packageId);
 	if(optional.isEmpty()) {
-		throw new ResourceNotFoundException("Id No Found");
+		throw new ResourceNotFoundException("Package Not Found With Id : " + packageId);
 	}
 	
 	ResponseStructure<Package> responseStructure = new ResponseStructure<>();
 	
 	responseStructure.setStatusCode(HttpStatus.OK.value());
-	responseStructure.setMessage("Id Found Successfully");
+	responseStructure.setMessage("Package Found Successfully");
 	responseStructure.setData(optional.get());
 	
 	return new ResponseEntity<>(responseStructure,HttpStatus.OK);

@@ -60,7 +60,7 @@ public class ShipmentService {
 		        throw new ResourceNotFoundException("Delivery Agent Not Found");
 		    }
 
-		    if (!packageRepository.findById(shipment.getPackage1().getPackageId()).isPresent()) {
+		    if (!packageRepository.findById(shipment.getPackageEntity().getPackageId()).isPresent()) {
 		        throw new ResourceNotFoundException("Package Not Found");
 		    }
 
@@ -68,12 +68,7 @@ public class ShipmentService {
 		        throw new ResourceNotFoundException("Payment Not Found");
 		    }
 
-//		    for (TrackingHistory history : shipment.getTrackingHistory()) {
-//
-//		        if (!trackingHistoryRepository.findById(history.getTrackingId()).isPresent()) {
-//		            throw new ResourceNotFoundException("Tracking History Not Found");
-//		        }
-//		    }
+		    }
 		}
 
 		List<Shipment> savedShipments = shipmentRepository.saveAll(shipments);
@@ -87,7 +82,7 @@ public class ShipmentService {
 		
 		
 		
-		
+	
 	}
 	
 	

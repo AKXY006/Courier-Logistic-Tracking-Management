@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.logistic.courier.entity.Payment;
 import com.logistic.courier.entity.PaymentStatus;
+import com.logistic.courier.exception.InvalidInputException;
 import com.logistic.courier.exception.ResourceNotFoundException;
 import com.logistic.courier.repository.PaymentRepository;
 import com.logistic.courier.util.ResponseStructure;
@@ -23,17 +24,18 @@ public class PaymentService {
 	
 	
 	public ResponseEntity<ResponseStructure<List<Payment>>>  saveAll(List<Payment> payments){
-		List<Payment> savePayments = paymentRepository.saveAll(payments);
 		
-		if(savePayments.isEmpty()) {
-			throw new ResourceNotFoundException("No record found");
+		if(payments == null || payments.isEmpty() ) {
+			throw new InvalidInputException("Payment List Cannot Be Empty");
 		}
+		
+		List<Payment> savePayments = paymentRepository.saveAll(payments);
 		
         ResponseStructure<List<Payment>> responseStructure = new ResponseStructure<>();
 		
 		responseStructure.setStatusCode(HttpStatus.CREATED.value());
-		responseStructure.setMessage("Payment record successfully received");
-		responseStructure.setData(payments);
+		responseStructure.setMessage("Payment record saved successfully");
+		responseStructure.setData(savePayments);
 		
 		return new ResponseEntity<>(responseStructure,HttpStatus.CREATED);
 		
@@ -76,16 +78,18 @@ public class PaymentService {
 	public ResponseEntity<ResponseStructure<Payment>> updateStatus(Integer paymentId, PaymentStatus paymentStatus){
 		Optional<Payment> optional = paymentRepository.findById(paymentId);
 		if(optional.isEmpty()) {
-			throw new ResourceNotFoundException("id not found");
+			throw new ResourceNotFoundException("Payment Record Not Found With Id : " + paymentId);
 		}
 		
 		Payment payment = optional.get();
 		payment.setPaymentStatus(paymentStatus);
 		
+		 Payment updatedPayment = paymentRepository.save(payment);
+		
 		ResponseStructure<Payment> responseStructure = new ResponseStructure<>();
 		responseStructure.setStatusCode(HttpStatus.OK.value());
-		responseStructure.setMessage("status successfully update");
-		responseStructure.setData(payment);
+		responseStructure.setMessage("payment status successfully update");
+		responseStructure.setData(updatedPayment);
 		
 		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
 	}
