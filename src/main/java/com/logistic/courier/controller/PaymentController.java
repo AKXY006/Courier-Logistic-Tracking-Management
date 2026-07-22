@@ -27,12 +27,6 @@ public class PaymentController {
        @Autowired
        private PaymentService paymentService;
        
-       
-       @PostMapping
-       public ResponseEntity<ResponseStructure<List<Payment>>>  saveAllPayment(@Valid @RequestBody List<Payment> payments){
-    	   return paymentService.saveAll(payments);
-       }
-       
        @GetMapping
        public ResponseEntity<ResponseStructure<List<Payment>>>   findAllPayment(){
     	   return paymentService.findAllPayment();

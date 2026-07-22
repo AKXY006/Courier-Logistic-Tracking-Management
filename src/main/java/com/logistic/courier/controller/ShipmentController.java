@@ -89,7 +89,6 @@ public class ShipmentController {
 	    return shipmentService.findByStatus(status);
 	}
 	
-	
 	@GetMapping("/route/{source}/{destination}")
 	public ResponseEntity<ResponseStructure<List<Shipment>>>  findBySourceAndDestination(@PathVariable String source, @PathVariable String destination){
 		return shipmentService.findBySourceAndDestination(source,destination);
@@ -105,8 +104,4 @@ public class ShipmentController {
         return shipmentService.findByPagination(pageNumber, pageSize);
     }
 	
-	
-	
-	
-
 }

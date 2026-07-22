@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,19 +15,12 @@ import com.logistic.courier.entity.TrackingStatus;
 import com.logistic.courier.service.TrackingHistoryService;
 import com.logistic.courier.util.ResponseStructure;
 
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/trackinghistory")
 public class TrackingHistoryController {
 	
 	@Autowired
 	private TrackingHistoryService trackingHistoryService;
-	
-	@PostMapping
-	public ResponseEntity< ResponseStructure<List<TrackingHistory>>>  saveAll(@Valid @RequestBody List<TrackingHistory> trackingHistories){
-		return trackingHistoryService.saveAllTrackingHistory(trackingHistories);
-	}
 	
 	@GetMapping
 	public ResponseEntity<ResponseStructure<List<TrackingHistory>>> findAllHistory(){

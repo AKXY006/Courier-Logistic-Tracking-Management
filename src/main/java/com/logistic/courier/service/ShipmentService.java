@@ -32,6 +32,7 @@ import com.logistic.courier.repository.ShipmentRepository;
 import com.logistic.courier.repository.WarehouseRepository;
 
 import com.logistic.courier.util.ResponseStructure;
+
 @Service
 public class ShipmentService {
 	
@@ -44,7 +45,6 @@ public class ShipmentService {
 	@Autowired
 	private DeliveryAgentRepository deliveryAgentRepository;
 
-	
 	@Autowired
 	private WarehouseRepository warehouseRepository;
 	

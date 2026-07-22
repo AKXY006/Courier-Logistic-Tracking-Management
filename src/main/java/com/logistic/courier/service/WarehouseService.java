@@ -23,47 +23,6 @@ public class WarehouseService {
 	@Autowired
 	private WarehouseRepository warehouseRepository;
 	
-	public ResponseEntity<ResponseStructure<List<Warehouse>>> saveWarehouses(List<Warehouse> warehouses) {
-
-	    if (warehouses == null || warehouses.isEmpty()) {
-	        throw new InvalidInputException("Warehouse List Cannot Be Empty");
-	    }
-
-	    for (Warehouse warehouse : warehouses) {
-
-	        String phoneNumber = warehouse.getWarehousePhoneNumber();
-
-	        if (phoneNumber == null || phoneNumber.length() != 10) {
-	            throw new InvalidInputException("Phone Number Must Be Exactly 10 Digits");
-	        }
-
-	        for (int i = 0; i < phoneNumber.length(); i++) {
-	            if (!Character.isDigit(phoneNumber.charAt(i))) {
-	                throw new InvalidInputException("Phone Number Must Contain Only Digits");
-	            }
-	        }
-
-	        Optional<Warehouse> optional = warehouseRepository.findByWarehousePhoneNumber(phoneNumber);
-
-	        if (optional.isPresent()) {
-	            throw new DuplicateResourceException("Phone Number Already In Use");
-	        }
-	    }
-
-	    List<Warehouse> savedWarehouses = warehouseRepository.saveAll(warehouses);
-
-	    ResponseStructure<List<Warehouse>> responseStructure = new ResponseStructure<>();
-
-	    responseStructure.setStatusCode(HttpStatus.CREATED.value());
-	    responseStructure.setMessage("Warehouses Saved Successfully");
-	    responseStructure.setData(savedWarehouses);
-
-	    return new ResponseEntity<>(responseStructure, HttpStatus.CREATED);
-	}
-	
-	
-	
-	
      public ResponseEntity<ResponseStructure<List<Warehouse>>> findAllWarehouse(){
 		
 		List<Warehouse> warehouses= warehouseRepository.findAll();
