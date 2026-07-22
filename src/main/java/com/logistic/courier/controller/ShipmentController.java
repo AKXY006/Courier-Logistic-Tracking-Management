@@ -30,9 +30,9 @@ public class ShipmentController {
 	
 	
 	@PostMapping
-//	public ResponseEntity<ResponseStructure<List<Shipment>>>  saveAllShipment(@Valid @RequestBody List<Shipment> shipments){
-//		return shipmentService.saveAllShipment(shipments);
-//	}
+	public ResponseEntity<ResponseStructure<Shipment>> saveAllShipment(@Valid @RequestBody Shipment shipments){
+		return shipmentService.saveShipment(shipments);
+	}
 	
 	@GetMapping
 	public ResponseEntity<ResponseStructure<List<Shipment>>>  findAllShipment(){
@@ -71,7 +71,7 @@ public class ShipmentController {
 	
 	@GetMapping("/customer/{customerId}")
 	public ResponseEntity<ResponseStructure<List<Shipment>>> findByCustomerId(@PathVariable Integer customerId){
-	    return shipmentService.findById(customerId);
+	    return shipmentService.findCustomerById(customerId);
 	}
 
 	@GetMapping("/warehouse/{warehouseId}")
@@ -86,7 +86,7 @@ public class ShipmentController {
 
 	@GetMapping("/status/{status}")
 	public ResponseEntity<ResponseStructure<List<Shipment>>> findByStatus(@PathVariable ShipmentStatus status){
-	    return shipmentService.findById(status);
+	    return shipmentService.findByStatus(status);
 	}
 	
 	
@@ -97,13 +97,15 @@ public class ShipmentController {
 	
 	@GetMapping("/date/{deliveryDate}")
 	public ResponseEntity<ResponseStructure<List<Shipment>>> findByDeliveryDate(@PathVariable LocalDate deliveryDate){
-		return shipmentService.findByDeliveryAgentId(deliveryDate);
+		return shipmentService.findByDeliveryDate(deliveryDate);
 	}
 	
 	@GetMapping("/pagination/{pageNumber}/{pageSize}")
     public ResponseEntity<ResponseStructure<List<Shipment>>> findByPagination(@PathVariable int pageNumber,@PathVariable int pageSize) {
-        return shipmentService.findBySourceAndDestination(pageNumber, pageSize);
+        return shipmentService.findByPagination(pageNumber, pageSize);
     }
+	
+	
 	
 	
 

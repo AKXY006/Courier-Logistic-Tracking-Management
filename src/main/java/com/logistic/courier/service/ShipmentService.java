@@ -1,9 +1,13 @@
 package com.logistic.courier.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -328,4 +332,144 @@ public class ShipmentService {
 
 	    return new ResponseEntity<>(responseStructure, HttpStatus.OK);
 	}
+
+	public ResponseEntity<ResponseStructure<String>> deleteById(Integer id) {
+		
+           Optional<Shipment> optional = shipmentRepository.findById(id);
+		
+		if(optional.isEmpty()) {
+			throw new ResourceNotFoundException("Shipment id not found");
+		}
+		
+		   shipmentRepository.deleteById(id);
+		   
+        ResponseStructure<String> responseStructure = new ResponseStructure<>();
+		
+		responseStructure.setStatusCode(HttpStatus.OK.value());
+		responseStructure.setMessage("Shipment deleted successfully");
+		responseStructure.setData("success");
+		
+		return new ResponseEntity<>(responseStructure,HttpStatus.OK);
+      
+	}
+
+	public ResponseEntity<ResponseStructure<List<Shipment>>> findCustomerById(Integer customerId) {
+		 List<Shipment> shipmentList = shipmentRepository.findByCustomerCustomerId(customerId);
+
+		    if (shipmentList.isEmpty()) {
+		        throw new ResourceNotFoundException("No Shipment Found For Customer Id : " + customerId);
+		    }
+
+		    ResponseStructure<List<Shipment>> responseStructure = new ResponseStructure<>();
+
+		    responseStructure.setStatusCode(HttpStatus.OK.value());
+		    responseStructure.setMessage("Shipments Found Successfully.");
+		    responseStructure.setData(shipmentList);
+
+		    return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+	}
+
+	public ResponseEntity<ResponseStructure<List<Shipment>>> findByWarehouseId(Integer warehouseId) {
+		List<Shipment> shipments = shipmentRepository.findByWarehouseWarehouseId(warehouseId);
+		
+		if(shipments.isEmpty()) {
+			throw new ResourceNotFoundException("no shipment found for warehouse id");
+		}
+		
+		 ResponseStructure<List<Shipment>> responseStructure = new ResponseStructure<>();
+
+		    responseStructure.setStatusCode(HttpStatus.OK.value());
+		    responseStructure.setMessage("Shipments Found Successfully.");
+		    responseStructure.setData(shipments);
+
+		    return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+		
+		
+	}
+
+	public ResponseEntity<ResponseStructure<List<Shipment>>> findByDeliveryAgentId(Integer deliveryId) {
+		List<Shipment> shipments = shipmentRepository.findByDeliveryAgentDeliveryId(deliveryId);
+		
+		if(shipments.isEmpty()) {
+			throw new ResourceNotFoundException("no shipment found for delivery agent id");
+		}
+		
+		 ResponseStructure<List<Shipment>> responseStructure = new ResponseStructure<>();
+
+		    responseStructure.setStatusCode(HttpStatus.OK.value());
+		    responseStructure.setMessage("Shipments Found Successfully.");
+		    responseStructure.setData(shipments);
+
+		    return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+	}
+
+	public ResponseEntity<ResponseStructure<List<Shipment>>> findByStatus(ShipmentStatus status) {
+	 List<Shipment> shipments = shipmentRepository.findByStatus(status);
+	 
+	 if(shipments.isEmpty()) {
+			throw new ResourceNotFoundException("no shipment found for status "+ status);
+		}
+		
+		 ResponseStructure<List<Shipment>> responseStructure = new ResponseStructure<>();
+
+		    responseStructure.setStatusCode(HttpStatus.OK.value());
+		    responseStructure.setMessage("Shipments Found Successfully.");
+		    responseStructure.setData(shipments);
+
+		    return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+	}
+
+	public ResponseEntity<ResponseStructure<List<Shipment>>> findBySourceAndDestination(String source, String destination) {
+
+	    List<Shipment> shipments = shipmentRepository.findBySourceAndDestination(source, destination);
+
+	    if (shipments.isEmpty()) {
+	        throw new ResourceNotFoundException("No Shipment Found From " + source + " To " + destination);
+	    }
+
+	    ResponseStructure<List<Shipment>> responseStructure = new ResponseStructure<>();
+
+	    responseStructure.setStatusCode(HttpStatus.OK.value());
+	    responseStructure.setMessage("Shipments Found Successfully.");
+	    responseStructure.setData(shipments);
+
+	    return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+	}
+
+	public ResponseEntity<ResponseStructure<List<Shipment>>> findByDeliveryDate(LocalDate deliveryDate) {
+
+	    List<Shipment> shipments = shipmentRepository.findByDeliveryDate(deliveryDate);
+
+	    if (shipments.isEmpty()) {
+	        throw new ResourceNotFoundException("No Shipment Found For Delivery Date : " + deliveryDate);
+	    }
+
+	    ResponseStructure<List<Shipment>> responseStructure = new ResponseStructure<>();
+
+	    responseStructure.setStatusCode(HttpStatus.OK.value());
+	    responseStructure.setMessage("Shipments Found Successfully.");
+	    responseStructure.setData(shipments);
+
+	    return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+	}
+	
+	public ResponseEntity<ResponseStructure<List<Shipment>>> findByPagination(int pageNumber, int pageSize) {
+
+	    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+	    Page<Shipment> page = shipmentRepository.findAll(pageable);
+
+	    if (page.isEmpty()) {
+	        throw new ResourceNotFoundException("No Shipment Found.");
+	    }
+
+	    ResponseStructure<List<Shipment>> responseStructure = new ResponseStructure<>();
+
+	    responseStructure.setStatusCode(HttpStatus.OK.value());
+	    responseStructure.setMessage("Shipments Retrieved Successfully.");
+	    responseStructure.setData(page.getContent());
+
+	    return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+	}
+	
 }
