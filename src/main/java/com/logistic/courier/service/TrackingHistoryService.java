@@ -23,24 +23,6 @@ public class TrackingHistoryService {
 	@Autowired
 	private TrackingHistoryRepository trackingHistoryRepository;
 	
-	public ResponseEntity<ResponseStructure<List<TrackingHistory>>> saveAllTrackingHistory(List<TrackingHistory> trackingHistories) {
-		
-		  if (trackingHistories == null || trackingHistories.isEmpty()) {
-		        throw new InvalidInputException("Tracking History List Cannot Be Empty");
-		    }
-		  
-		List<TrackingHistory> saveHistories = trackingHistoryRepository.saveAll(trackingHistories);
-		
-		ResponseStructure<List<TrackingHistory>> responseStructure = new ResponseStructure<>();
-		responseStructure.setStatusCode(HttpStatus.CREATED.value());
-		responseStructure.setMessage("TrackingHistory saved Successfully");
-		responseStructure.setData(saveHistories);
-		
-		return new ResponseEntity<>(responseStructure,HttpStatus.CREATED);
-	}
-	
-	
-	
 	public ResponseEntity<ResponseStructure<List<TrackingHistory>>> findAllHistory(){
 		
 		List<TrackingHistory> trackingHistories = trackingHistoryRepository.findAll();
