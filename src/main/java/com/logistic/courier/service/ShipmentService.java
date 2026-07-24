@@ -133,10 +133,6 @@ public class ShipmentService {
 	        throw new InvalidInputException("Payment Status is mandatory.");
 	    }
 
-	    if (shipment.getTrackingHistory() == null || shipment.getTrackingHistory().isEmpty()) {
-	        throw new InvalidInputException("At least one Tracking History is required.");
-	    }
-
 	    double amount = 0;
 
 	    if (shipment.getWeight() <= 5) {
@@ -165,12 +161,6 @@ public class ShipmentService {
 	    Package packageEntity = shipment.getPackageEntity();
 	    packageEntity.setShipment(shipment);
 
-	    List<TrackingHistory> trackingHistoryList = shipment.getTrackingHistory();
-
-	    for (int i = 0; i < trackingHistoryList.size(); i++) {
-	        TrackingHistory trackingHistory = trackingHistoryList.get(i);
-	        trackingHistory.setShipment(shipment);
-	    }
 
 	    Shipment savedShipment = shipmentRepository.save(shipment);
 

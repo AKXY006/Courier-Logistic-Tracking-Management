@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.logistic.courier.entity.Customer;
 import com.logistic.courier.entity.Warehouse;
 import com.logistic.courier.service.WarehouseService;
 import com.logistic.courier.util.ResponseStructure;
